@@ -26,6 +26,7 @@
 
 	<modules>
 		<module>vigor-infra</module>
+		<module>vigor-defensor</module>
 	</modules>
 
 	<build>
@@ -182,12 +183,12 @@
 
 			<!-- vigor-framework -->
 			<dependency>
-				<groupId>org.anttribe.vigor-infra</groupId>
+				<groupId>org.anttribe.vigor.vigor-infra</groupId>
 				<artifactId>vigor-infra-common</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>org.anttribe.vigor-infra</groupId>
+				<groupId>org.anttribe.vigor.vigor-infra</groupId>
 				<artifactId>vigor-infra-persist</artifactId>
 				<version>${project.version}</version>
 			</dependency>
