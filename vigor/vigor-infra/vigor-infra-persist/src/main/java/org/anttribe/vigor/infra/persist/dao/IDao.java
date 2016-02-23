@@ -10,11 +10,13 @@ package org.anttribe.vigor.infra.persist.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.anttribe.vigor.infra.persist.entity.Entity;
+
 /**
  * @author zhaoyong
  * @version 2016年2月22日
  */
-public interface IDao<T>
+public interface IDao<T extends Entity>
 {
     
     /**

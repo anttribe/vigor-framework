@@ -13,7 +13,7 @@ package org.anttribe.vigor.infra.persist.entity;
  * @author zhaoyong
  * @version 2016年2月22日
  */
-public class TreeEntity<T> extends Entity
+public abstract class TreeEntity<T> extends Entity
 {
     
     /**
