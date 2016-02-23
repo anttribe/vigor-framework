@@ -1,5 +1,5 @@
 /*
- * 文  件   名: Role.java
+ * 文  件   名: Identity.java
  * 版         本 : vigor-defensor-service © 2016 Anttribe. All rights reserved.
  * 描         述 : <描述>
  * 修   改  人: zhaoyong
@@ -12,38 +12,38 @@ import java.util.List;
 import org.anttribe.vigor.infra.persist.entity.Entity;
 
 /**
- * 角色
+ * 身份
  * 
  * @author zhaoyong
  * @version 2016年2月23日
  */
-public class Role extends Entity
+public class Identity extends Entity
 {
     
     /**
      * serialVersionUID
      */
-    private static final long serialVersionUID = 4189092222726319058L;
+    private static final long serialVersionUID = 6705520317367840224L;
     
     /**
-     * 角色名
+     * 名称
      */
     private String name;
     
     /**
-     * 创建人
+     * 唯一编码
      */
-    private String creator;
+    private String code;
     
     /**
-     * 资源
+     * 身份角色
      */
-    private List<RoleResource> resources;
+    private List<IdentityRole> identityRoles;
     
     /**
      * <默认构造器>
      */
-    public Role()
+    public Identity()
     {
     }
     
@@ -57,24 +57,23 @@ public class Role extends Entity
         this.name = name;
     }
     
-    public String getCreator()
+    public String getCode()
     {
-        return creator;
+        return code;
     }
     
-    public void setCreator(String creator)
+    public void setCode(String code)
     {
-        this.creator = creator;
+        this.code = code;
     }
     
-    public List<RoleResource> getResources()
+    public List<IdentityRole> getIdentityRoles()
     {
-        return resources;
+        return identityRoles;
     }
     
-    public void setResources(List<RoleResource> resources)
+    public void setIdentityRoles(List<IdentityRole> identityRoles)
     {
-        this.resources = resources;
+        this.identityRoles = identityRoles;
     }
-    
 }

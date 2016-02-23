@@ -7,6 +7,8 @@
  */
 package org.anttribe.vigor.infra.persist.entity;
 
+import java.util.List;
+
 /**
  * 树形结构实体
  * 
@@ -26,6 +28,11 @@ public abstract class TreeEntity<T> extends Entity
      */
     protected T parent;
     
+    /**
+     * 子节点
+     */
+    private List<T> children;
+    
     public T getParent()
     {
         return parent;
@@ -34,6 +41,16 @@ public abstract class TreeEntity<T> extends Entity
     public void setParent(T parent)
     {
         this.parent = parent;
+    }
+    
+    public List<T> getChildren()
+    {
+        return children;
+    }
+    
+    public void setChildren(List<T> children)
+    {
+        this.children = children;
     }
     
 }
