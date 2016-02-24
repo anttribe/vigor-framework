@@ -12,7 +12,7 @@
 	<dubbo:protocol name="dubbo" port="${dubbo.application.port}" />
 	<dubbo:registry address="${dubbo.registry.address}"
 		check="false" />
-	<dubbo:annotation package="com.yczn.wa.defensor" />
+	<dubbo:annotation package="org.anttribe.vigor.defensor" />
 	<dubbo:provider timeout="${dubbo.provider.timeout}"
 		charset="${dubbo.provider.charset}" />
 	<dubbo:consumer check="false" />

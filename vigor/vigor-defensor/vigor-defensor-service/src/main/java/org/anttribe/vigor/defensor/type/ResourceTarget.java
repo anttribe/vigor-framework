@@ -13,5 +13,5 @@ package org.anttribe.vigor.defensor.type;
  */
 public enum ResourceTarget
 {
-    BLANK, PARENT, SELF, TOP, FRAME;
+    BLANK, PARENT, SELF, TOP;
 }

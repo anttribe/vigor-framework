@@ -56,11 +56,6 @@ public class Resource extends TreeEntity<Resource>
     private String icon;
     
     /**
-     * 是否可用
-     */
-    private String enabled;
-    
-    /**
      * 是否显示
      */
     private String isShow;
@@ -130,16 +125,6 @@ public class Resource extends TreeEntity<Resource>
     public void setIcon(String icon)
     {
         this.icon = icon;
-    }
-    
-    public String getEnabled()
-    {
-        return enabled;
-    }
-    
-    public void setEnabled(String enabled)
-    {
-        this.enabled = enabled;
     }
     
     public String getIsShow()

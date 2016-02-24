@@ -21,6 +21,7 @@
 		<dbcp.version>1.4</dbcp.version>
 		<mysql.version>5.1.22</mysql.version>
 		<dubbo.version>2.8.4</dubbo.version>
+		<sitemeth.version>3.0.0</sitemeth.version>
 		<jstl.version>1.2</jstl.version>
 		<junit.version>4.11</junit.version>
 	</properties>
@@ -198,6 +199,13 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>dubbo</artifactId>
 				<version>${dubbo.version}</version>
+			</dependency>
+
+			<!-- sitemeth -->
+			<dependency>
+				<groupId>org.sitemesh</groupId>
+				<artifactId>sitemesh</artifactId>
+				<version>${sitemeth.version}</version>
 			</dependency>
 
 			<!-- vigor-framework -->

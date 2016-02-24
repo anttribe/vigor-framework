@@ -53,6 +53,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.sitemesh</groupId>
+			<artifactId>sitemesh</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.anttribe.vigor.vigor-defensor</groupId>
 			<artifactId>vigor-defensor-service</artifactId>
 			<version>${project.version}</version>
