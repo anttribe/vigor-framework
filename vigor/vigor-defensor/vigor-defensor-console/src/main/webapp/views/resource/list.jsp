@@ -39,6 +39,8 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <c:set var="resourceList" value="${PAGE_DATA}" scope="request" />
+                                        <c:import url="list-items.jsp" />
                                     </tbody>
                                 </table>
                             </div>
@@ -56,6 +58,15 @@
             	$('.btn-add').click(function(){
             		location.href = contextPath + '/resource/add';
             	});
+            	
+            	//treeTable
+	        	$("#resource-table").treetable({
+	        		column: 0,
+	        		expandable: true,
+	        		stringExpand: '',
+	        		stringCollapse: '',
+	        		initialState: 'expanded'
+	        	}).show();
             });
         </script>
     </body>
