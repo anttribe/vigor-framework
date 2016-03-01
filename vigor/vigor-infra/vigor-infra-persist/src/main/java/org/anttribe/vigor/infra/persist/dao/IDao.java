@@ -54,10 +54,10 @@ public interface IDao<T extends Entity>
     /**
      * 删除数据
      * 
-     * @param entity
+     * @param criteria
      * @return
      */
-    int delete(T entity);
+    int delete(Map<String, Object> criteria);
     
     /**
      * 查找所有数据
@@ -73,6 +73,14 @@ public interface IDao<T extends Entity>
      * @return
      */
     List<T> find(Map<String, Object> criteria);
+    
+    /**
+     * 根据id查询数据
+     * 
+     * @param criteria
+     * @return T
+     */
+    T findById(Map<String, Object> criteria);
     
     /**
      * 计算根据条件查询的数据条数

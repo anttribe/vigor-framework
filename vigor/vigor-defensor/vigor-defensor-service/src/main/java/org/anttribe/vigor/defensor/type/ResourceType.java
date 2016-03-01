@@ -7,6 +7,9 @@
  */
 package org.anttribe.vigor.defensor.type;
 
+import org.anttribe.vigor.defensor.domain.Resource;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * 资源类型
  * 
@@ -17,10 +20,39 @@ public enum ResourceType
 {
     
     /** 菜单 */
-    MENU,
+    MENU
+    {
+        @Override
+        public String assemblePermission(Resource resource)
+        {
+            String resourceUrl = resource.getResourceUrl();
+            if (!StringUtils.isEmpty(resourceUrl))
+            {
+                String[] substrs = resourceUrl.split("/");
+                return this.name() + StringUtils.join(substrs, ":");
+            }
+            return null;
+        }
+    },
     /** 页面 */
-    PAGE,
+    PAGE
+    {
+        @Override
+        public String assemblePermission(Resource resource)
+        {
+            return this.name() + resource.getId();
+        }
+    },
     /** 操作 */
-    OPERATOR;
+    OPERATOR
+    {
+        @Override
+        public String assemblePermission(Resource resource)
+        {
+            return resource.getPrivilege();
+        }
+    };
+    
+    public abstract String assemblePermission(Resource resource);
     
 }

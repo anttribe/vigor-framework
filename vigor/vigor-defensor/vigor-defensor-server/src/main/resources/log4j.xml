@@ -18,6 +18,14 @@
 		<level value="WARN" />
 	</logger>
 
+	<logger name="com.alibaba.dubbo.common">
+		<level value="WARN" />
+	</logger>
+
+	<logger name="org.I0Itec.zkclient">
+		<level value="WARN" />
+	</logger>
+
 	<root>
 		<priority value="DEBUG" />
 		<appender-ref ref="Console" />

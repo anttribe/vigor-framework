@@ -7,6 +7,7 @@
  */
 package org.anttribe.vigor.infra.common.service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +101,7 @@ public abstract class AbstractServiceImpl<Dao extends IDao<T>, T extends Entity>
         
         if (null == entity.getId())
         {
+            entity.setCreateTime(new Date());
             dao.insert(entity);
             logger.debug("entity not exist in DB, then save new entity to DB, entity: {}", entity);
             return;
@@ -110,22 +112,24 @@ public abstract class AbstractServiceImpl<Dao extends IDao<T>, T extends Entity>
         List<T> tempEntities = dao.find(criteria);
         if (CollectionUtils.isEmpty(tempEntities))
         {
+            entity.setCreateTime(new Date());
             dao.insert(entity);
             logger.debug("entity not exist in DB, then save new entity to DB, entity: {}", entity);
             return;
         }
+        entity.setUpdateTime(new Date());
         dao.update(entity);
         logger.debug("entity exist in DB, then update entity info, entity: {}", entity);
     }
     
     @Override
-    public void removeEntity(T entity)
+    public void removeEntity(Map<String, Object> criteria)
     {
-        logger.debug("deleting entity from DB, param: entity[{}]", entity);
+        logger.debug("deleting entity from DB, param: criteria[{}]", criteria);
         
-        if (null != entity)
+        if (null != criteria)
         {
-            dao.delete(entity);
+            dao.delete(criteria);
         }
     }
 }

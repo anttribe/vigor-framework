@@ -8,8 +8,8 @@
 <html lang="en_US">
     <head>
         <title><spring:message code="app.resource.title" /></title>
-        <link rel="stylesheet" type="text/css" href="${contextPath}/static/assets/jquery-treetable/css/jquery.treetable.css" >
-        <link rel="stylesheet" type="text/css" href="${contextPath}/static/static/css/jquery.treetable.theme.custom.css" >
+        <link rel="stylesheet" type="text/css" href="${contextPath}/assets/jquery-treetable/css/jquery.treetable.css" >
+        <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/jquery.treetable.theme.custom.css" >
     </head>
     <body>
         <div class="clearfix"></div>
@@ -27,15 +27,16 @@
                                 <a href="#none" class="btn btn-primary btn-add"><i class="fa fa-plus"></i> <spring:message code="app.resource.action.add" /></a>
                             </div>
                             <div class="table-responsive">
-                                <table id="resource-table" class="table table-bordered table-striped">
+                                <table id="resource-table" class="table table-striped">
                                     <thead>
                                         <tr>
                                             <th><spring:message code="app.resource.title.name" /></th>
                                             <th><spring:message code="app.resource.title.resourceType" /></th>
                                             <th><spring:message code="app.resource.title.resourceUrl" /></th>
+                                            <th><spring:message code="app.resource.title.target" /></th>
                                             <th><spring:message code="app.resource.title.privilege" /></th>
-                                            <th><spring:message code="app.resource.title.enabled" /></th>
-                                            <th width="10%"><spring:message code="app.common.action.operate" /></th>
+                                            <th><spring:message code="app.resource.title.isShow" /></th>
+                                            <th><spring:message code="app.common.action.operate" /></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,8 +52,8 @@
         </div>
         <!--body wrapper end-->
         
-        <script type="text/javascript" src="${contextPath}/static/assets/jquery-treetable/js/jquery.treetable.js"></script>
-        <script type="text/javascript" src="${contextPath}/static/static/js/moudles/resource.js"></script>
+        <script type="text/javascript" src="${contextPath}/assets/jquery-treetable/js/jquery.treetable.js"></script>
+        <script type="text/javascript" src="${contextPath}/static/js/moudles/resource.js"></script>
         <script type="text/javascript">
             $(function(){
             	$('.btn-add').click(function(){

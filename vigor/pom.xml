@@ -21,6 +21,10 @@
 		<dbcp.version>1.4</dbcp.version>
 		<mysql.version>5.1.22</mysql.version>
 		<dubbo.version>2.8.4</dubbo.version>
+		<zookeeper.version>3.4.6</zookeeper.version>
+		<zkclient.version>0.1</zkclient.version>
+		<shiro.version>1.2.4</shiro.version>
+		<aspectj.version>1.8.0</aspectj.version>
 		<sitemeth.version>3.0.0</sitemeth.version>
 		<jstl.version>1.2</jstl.version>
 		<junit.version>4.11</junit.version>
@@ -49,9 +53,9 @@
 
 			<!-- apache commons -->
 			<dependency>
-				<groupId>commons-lang</groupId>
-				<artifactId>commons-lang</artifactId>
-				<version>2.6</version>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.3.2</version>
 			</dependency>
 			<dependency>
 				<groupId>commons-collections</groupId>
@@ -201,6 +205,54 @@
 				<version>${dubbo.version}</version>
 			</dependency>
 
+			<!-- zookeeper -->
+			<dependency>
+				<groupId>org.apache.zookeeper</groupId>
+				<artifactId>zookeeper</artifactId>
+				<version>${zookeeper.version}</version>
+			</dependency>
+
+			<!-- zkclient -->
+			<dependency>
+				<groupId>com.github.sgroschupf</groupId>
+				<artifactId>zkclient</artifactId>
+				<version>${zkclient.version}</version>
+			</dependency>
+
+			<!-- shiro -->
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-core</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-web</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-ehcache</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shiro</groupId>
+				<artifactId>shiro-spring</artifactId>
+				<version>${shiro.version}</version>
+			</dependency>
+
+			<!-- aspectj -->
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>${aspectj.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjweaver</artifactId>
+				<version>${aspectj.version}</version>
+			</dependency>
+
 			<!-- sitemeth -->
 			<dependency>
 				<groupId>org.sitemesh</groupId>
@@ -217,6 +269,22 @@
 			<dependency>
 				<groupId>org.anttribe.vigor.vigor-infra</groupId>
 				<artifactId>vigor-infra-persist</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.anttribe.vigor.vigor-infra</groupId>
+				<artifactId>vigor-infra-dict</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.anttribe.vigor.vigor-defensor</groupId>
+				<artifactId>vigor-defensor-service</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.anttribe.vigor.vigor-defensor</groupId>
+				<artifactId>vigor-defensor-auth</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 

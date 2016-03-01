@@ -25,6 +25,6 @@
                 <%@include file="footer.jsp" %>
             </div>
         </section>
-        <script type="text/javascript" src="${contextPath}/static/assets/adminEx/js/adminEx.js"></script>
+        <script type="text/javascript" src="${contextPath}/assets/adminEx/js/adminEx.js"></script>
     </body>
 </html>

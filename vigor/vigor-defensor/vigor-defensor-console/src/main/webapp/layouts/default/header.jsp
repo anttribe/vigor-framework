@@ -8,7 +8,7 @@
     <a class="toggle-btn"><i class="fa fa-bars"></i></a>
     <!--toggle button end-->
 
-    <c:if test="${null != USER_SESSION}">
+    <c:if test="${null != USERINFO}">
         <!--notification menu start -->
         <div class="menu-right">
             <ul class="notification-menu">
@@ -19,16 +19,13 @@
                                 <img src="USER_SESSION.avatar" alt="avatar" />
                             </c:when>
                             <c:otherwise>
-                                <img src="${contextPath}/static/static/img/photos/user-avatar.png" alt="avatar" />
+                                <img src="${contextPath}/static/img/photos/user-avatar.png" alt="avatar" />
                             </c:otherwise>
                         </c:choose>
-                        <c:out value="${USER_SESSION.username}"></c:out>
+                        <c:out value="${USERINFO.username}"></c:out>
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
-                        <li><a href="#"><i class="fa fa-user"></i> <spring:message code="app.user.title.profile" /></a></li>
-                        <li><a href="#"><i class="fa fa-cog"></i> <spring:message code="app.user.title.settings" /></a></li>
-                        <li><a href="#"><i class="fa fa-sign-out"></i> <spring:message code="app.user.action.signout" /></a></li>
                     </ul>
                 </li>
             </ul>

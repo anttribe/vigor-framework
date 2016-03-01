@@ -9,6 +9,7 @@ package org.anttribe.vigor.defensor.domain;
 
 import java.util.List;
 
+import org.anttribe.vigor.infra.dict.domain.Dict;
 import org.anttribe.vigor.infra.persist.entity.Entity;
 
 /**
@@ -33,7 +34,12 @@ public class Role extends Entity
     /**
      * 创建人
      */
-    private String creator;
+    private User creator;
+    
+    /**
+     * 角色标记
+     */
+    private Dict identify;
     
     /**
      * 资源
@@ -57,12 +63,12 @@ public class Role extends Entity
         this.name = name;
     }
     
-    public String getCreator()
+    public User getCreator()
     {
         return creator;
     }
     
-    public void setCreator(String creator)
+    public void setCreator(User creator)
     {
         this.creator = creator;
     }
@@ -75,6 +81,16 @@ public class Role extends Entity
     public void setResources(List<RoleResource> resources)
     {
         this.resources = resources;
+    }
+    
+    public Dict getIdentify()
+    {
+        return identify;
+    }
+    
+    public void setIdentify(Dict identify)
+    {
+        this.identify = identify;
     }
     
 }

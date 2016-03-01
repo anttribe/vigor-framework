@@ -11,8 +11,8 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * 领域实体接口

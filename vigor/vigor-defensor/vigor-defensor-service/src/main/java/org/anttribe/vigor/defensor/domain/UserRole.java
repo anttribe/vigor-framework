@@ -1,27 +1,25 @@
 /*
- * 文  件   名: UserIdentity.java
+ * 文  件   名: UserRole.java
  * 版         本 : vigor-defensor-service © 2016 Anttribe. All rights reserved.
  * 描         述 : <描述>
  * 修   改  人: zhaoyong
- * 修改时间: 2016年2月23日
+ * 修改时间: 2016年2月26日
  */
 package org.anttribe.vigor.defensor.domain;
 
 import org.anttribe.vigor.infra.persist.entity.Entity;
 
 /**
- * 用户身份
- * 
  * @author zhaoyong
- * @version 2016年2月23日
+ * @version 2016年2月26日
  */
-public class UserIdentity extends Entity
+public class UserRole extends Entity
 {
     
     /**
      * serialVersionUID
      */
-    private static final long serialVersionUID = -4171062068627177528L;
+    private static final long serialVersionUID = -2003506690819155002L;
     
     /**
      * 用户
@@ -29,16 +27,9 @@ public class UserIdentity extends Entity
     private User user;
     
     /**
-     * 身份
+     * 角色
      */
-    private Identity identity;
-    
-    /**
-     * <默认构造器>
-     */
-    public UserIdentity()
-    {
-    }
+    private Role role;
     
     public User getUser()
     {
@@ -50,14 +41,14 @@ public class UserIdentity extends Entity
         this.user = user;
     }
     
-    public Identity getIdentity()
+    public Role getRole()
     {
-        return identity;
+        return role;
     }
     
-    public void setIdentity(Identity identity)
+    public void setRole(Role role)
     {
-        this.identity = identity;
+        this.role = role;
     }
     
 }

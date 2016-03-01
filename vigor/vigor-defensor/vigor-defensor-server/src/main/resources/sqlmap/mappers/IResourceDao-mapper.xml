@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.anttribe.vigor.defensor.dao.IResourceDao">
+	<cache readOnly="true" />
+	<resultMap id="Resource-resultMap" type="org.anttribe.vigor.defensor.domain.Resource">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="resourceType" column="resource_type"
+			javaType="org.anttribe.vigor.defensor.type.ResourceType" />
+		<result property="resourceUrl" column="resource_url" />
+		<result property="target" column="target"
+			javaType="org.anttribe.vigor.defensor.type.ResourceTarget" />
+		<result property="privilege" column="privilege" />
+		<result property="icon" column="icon" />
+		<result property="sortNo" column="sort_no" />
+		<result property="isShow" column="is_show" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<association property="parent"
+			javaType="org.anttribe.vigor.defensor.domain.Resource">
+			<id property="id" column="parent_id"></id>
+			<result property="name" column="parent_name" />
+		</association>
+		<collection property="children" javaType="java.util.ArrayList"
+			column="{parent.id=id}" ofType="org.anttribe.vigor.defensor.domain.Resource"
+			select="org.anttribe.vigor.defensor.dao.IResourceDao.find">
+		</collection>
+	</resultMap>
+
+	<!-- select -->
+	<sql id="select">
+        <![CDATA[
+            SELECT t.id, t.name, t.resource_type, t.resource_url, t.target, t.privilege, t.icon, t.parent, t.sort_no, t.is_show, t.create_time, t.update_time, t1.id AS parent_id, t1.name AS parent_name
+              FROM vigor_defensor_t_resource_info t
+              LEFT JOIN vigor_defensor_t_resource_info t1 ON t1.id = t.parent
+        ]]>
+	</sql>
+
+	<!-- where -->
+	<sql id="where">
+		<where>
+			<if test="null != id and id != ''">
+				AND t.id = #{id}
+			</if>
+			<if test="null != name and name != ''">
+				AND t.name LIKE CONCAT('', #{name}, '')
+			</if>
+			<if test="null != resourceType and resourceType != ''">
+				AND t.resource_type = #{resourceType}
+			</if>
+			<if test="null == id and (null == parent or null == parent.id)">
+				AND t.parent IS NULL
+			</if>
+			<if test="null != parent and null != parent.id and parent.id != ''">
+				AND t.parent = #{parent.id}
+			</if>
+			<if test="null != isShow and isShow != ''">
+				AND t.is_show = #{isShow}
+			</if>
+
+			<if test="null != roles and roles.size() > 0">
+				<![CDATA[ AND t.id IN (SELECT rr.resource_id FROM vigor_defensor_t_role_resource_rec rr WHERE rr.role_id IN]]>
+				<foreach collection="roles" item="item" open="(" separator=","
+					close=")">
+			        <![CDATA[ #{item.id} ]]>
+				</foreach>
+				<![CDATA[)]]>
+			</if>
+		</where>
+	</sql>
+
+	<!-- where-no-alias -->
+	<sql id="where-no-alias">
+		<where>
+			<if test="null != id and id != ''">
+				AND id = #{id}
+			</if>
+			<if test="null != name and name != ''">
+				AND name LIKE CONCAT('', #{name}, '')
+			</if>
+			<if test="null != resourceType and resourceType != ''">
+				AND resource_type = #{resourceType}
+			</if>
+			<if test="null == id and (null == parent or null == parent.id)">
+				AND parent IS NULL
+			</if>
+			<if test="null != parent and null != parent.id and parent.id != ''">
+				AND parent = #{parent.id}
+			</if>
+			<if test="null != isShow and isShow != ''">
+				AND is_show = #{isShow}
+			</if>
+		</where>
+	</sql>
+
+	<!-- order-by -->
+	<sql id="order-by">
+	    <![CDATA[ ORDER BY t.sort_no ASC, t.update_time DESC, t.create_time DESC ]]>
+	</sql>
+
+	<!-- limit -->
+	<sql id="limit">
+		<if test="null != pagination">
+			limit #{pagination.offset}, #{pagination.pagesize}
+		</if>
+	</sql>
+
+	<!-- insert: 插入单条数据 -->
+	<insert id="insert" parameterType="org.anttribe.vigor.defensor.domain.Resource">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+		    <![CDATA[ SELECT LAST_INSERT_ID() ]]>
+		</selectKey>
+		<![CDATA[
+		    INSERT INTO vigor_defensor_t_resource_info(name, resource_type, resource_url, target, privilege, icon, parent, sort_no, is_show, create_time, update_time)
+		        VALUES(#{name}, #{resourceType}, #{resourceUrl}, #{target}, #{privilege}, #{icon}, #{parent.id}, #{sortNo}, #{isShow}, #{createTime}, #{updateTime})
+		]]>
+	</insert>
+
+	<!-- batchInsert: 批量插入数据 -->
+	<insert id="batchInsert" parameterType="java.util.List">
+		<![CDATA[
+		    INSERT INTO vigor_defensor_t_resource_info(name, resource_type, resource_url, target, privilege, icon, parent, sort_no, is_show, create_time, update_time)
+		        VALUES
+		]]>
+		<foreach collection="list" item="item" separator=", ">
+			<![CDATA[
+			    (#{item.name}, #{item.resourceType}, #{item.resourceUrl}, #{item.target}, #{item.privilege}, #{item.icon}, #{item.parent.id}, #{item.sortNo}, #{item.isShow}, #{item.createTime}, #{item.updateTime})
+			]]>
+		</foreach>
+	</insert>
+
+	<!-- update: 更新单条数据 -->
+	<update id="update" parameterType="org.anttribe.vigor.defensor.domain.Resource">
+        <![CDATA[
+            UPDATE vigor_defensor_t_resource_info
+        ]]>
+		<set>
+			<if test="null != name and name != ''">
+				name = #{name},
+			</if>
+			<if test="null != resourceType and resourceType != ''">
+				resource_type = #{resourceType},
+			</if>
+			<if test="null != resourceUrl and resourceUrl != ''">
+				resource_url = #{resourceUrl},
+			</if>
+			<if test="null != target and target != ''">
+				target = #{target},
+			</if>
+			<if test="null != privilege and privilege != ''">
+				privilege = #{privilege},
+			</if>
+			<if test="null != icon and icon != ''">
+				icon = #{icon},
+			</if>
+			<if test="null != parent and null != parent.id and parent.id != ''">
+				parent = #{parent.id},
+			</if>
+			<if test="null != sortNo and sortNo != ''">
+				sort_no = #{sortNo},
+			</if>
+			<if test="null != isShow and isShow != ''">
+				is_show = #{isShow},
+			</if>
+			<if test="null != updateTime and updateTime != ''">
+				update_time = #{updateTime},
+			</if>
+		</set>
+		<include refid="where-no-alias"></include>
+	</update>
+
+	<!-- delete: 删除数据 -->
+	<delete id="delete" parameterType="Map">
+	    <![CDATA[
+            DELETE FROM vigor_defensor_t_resource_info
+        ]]>
+		<include refid="where-no-alias"></include>
+	</delete>
+
+	<!-- findAll: 查询所有数据 -->
+	<select id="findAll" resultMap="Resource-resultMap">
+		<include refid="select"></include>
+		<include refid="order-by"></include>
+	</select>
+
+	<!-- find: 根据条件查询数据 -->
+	<select id="find" resultMap="Resource-resultMap" parameterType="Map">
+		<include refid="select"></include>
+		<include refid="where"></include>
+		<include refid="order-by"></include>
+	</select>
+
+	<!-- count: 根据条件查询数据条数 -->
+	<select id="count" resultType="int" parameterType="Map">
+		<![CDATA[
+            SELECT COUNT(1)
+              FROM vigor_defensor_t_resource_info t
+        ]]>
+		<include refid="where"></include>
+	</select>
+
+</mapper>

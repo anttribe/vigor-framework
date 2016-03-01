@@ -54,8 +54,8 @@ public interface IService<T>
     /**
      * 删除数据
      * 
-     * @param entity
+     * @param criteria
      */
-    void removeEntity(T entity);
+    void removeEntity(Map<String, Object> criteria);
     
 }

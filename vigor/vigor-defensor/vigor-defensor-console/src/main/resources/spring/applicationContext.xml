@@ -19,53 +19,7 @@
 		</property>
 	</bean>
 
-	<context:component-scan base-package="org.anttribe.vigor.defensor.console">
-		<context:include-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-	</context:component-scan>
-
-	<mvc:annotation-driven>
-		<mvc:message-converters>
-			<bean
-				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-				<property name="supportedMediaTypes">
-					<list>
-						<value>text/plain;charset=UTF-8</value>
-						<value>text/html;charset=UTF-8</value>
-						<value>text/json;charset=UTF-8</value>
-						<value>application/json;charset=UTF-8</value>
-					</list>
-				</property>
-			</bean>
-		</mvc:message-converters>
-	</mvc:annotation-driven>
-
-	<!-- 使用ResourceHttpRequestHandler -->
-	<mvc:resources mapping="static/assets/**" location="/assets/"
-		cache-period="3600" />
-	<mvc:resources mapping="static/themes/**" location="/themes/"
-		cache-period="3600" />
-	<mvc:resources mapping="static/static/**" location="/static/"
-		cache-period="3600" />
-
-	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basenames" value="${i18n.message.basenames}" />
-	</bean>
-
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="contentType" value="text/html;encoding=UTF-8" />
-		<property name="prefix" value="${web.view.prefix}" />
-		<property name="suffix" value="${web.view.suffix}" />
-		<property name="cache" value="false" />
-	</bean>
-
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<property name="defaultEncoding" value="${file.upload.encoding}" />
-		<property name="maxUploadSize" value="${file.upload.maxSize}" />
-	</bean>
-
 	<!-- import other layer definitions -->
+	<import resource="applicationContext-shiro.xml" />
+	<import resource="applicationContext-dubbox.xml" />
 </beans>

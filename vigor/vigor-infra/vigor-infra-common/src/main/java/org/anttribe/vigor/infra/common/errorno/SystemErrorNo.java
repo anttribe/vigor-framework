@@ -66,4 +66,9 @@ public final class SystemErrorNo
      */
     public static final String INVALID_STATE_ERROR = "000009";
     
+    /**
+     * 数据不存在
+     */
+    public static final String DATA_NOT_EXIST_ERROR = "000010";
+    
 }

@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.anttribe.vigor.defensor.dao.IRoleDao">
+	<cache readOnly="true" />
+	<resultMap id="Role-resultMap" type="org.anttribe.vigor.defensor.domain.Role">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="name" column="name" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="remarks" column="remarks" />
+		<association property="creator"
+			javaType="org.anttribe.vigor.defensor.domain.User">
+			<id property="id" column="creator" />
+		</association>
+		<association property="identify"
+			javaType="org.anttribe.vigor.infra.dict.domain.Dict">
+			<id property="id" column="identify" />
+		</association>
+	</resultMap>
+
+	<resultMap id="Role-detail-resultMap" type="org.anttribe.vigor.defensor.domain.Role">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="remarks" column="remarks" />
+		<association property="creator"
+			javaType="org.anttribe.vigor.defensor.domain.User">
+			<id property="id" column="creator" />
+		</association>
+		<association property="identify"
+			javaType="org.anttribe.vigor.infra.dict.domain.Dict">
+			<id property="id" column="identify" />
+		</association>
+		<collection property="resources" javaType="java.util.ArrayList"
+			ofType="org.anttribe.vigor.defensor.domain.RoleResource" column="{role.id = id}"
+			select="org.anttribe.vigor.defensor.dao.IRoleResourceDao.find"></collection>
+	</resultMap>
+
+	<!-- select -->
+	<sql id="select">
+        <![CDATA[
+            SELECT t.id, t.name, t.creator, t.identify, t.create_time, t.update_time, t.remarks
+              FROM vigor_defensor_t_role_info t
+        ]]>
+	</sql>
+
+	<!-- where -->
+	<sql id="where">
+		<where>
+			<if test="null != id and id != ''">
+				AND t.id = #{id}
+			</if>
+			<if test="null != name and '' != name">
+				AND t.name LIKE CONCAT('%', #{name}, '%')
+			</if>
+			<if test="null != creator and null != creator.id and '' != creator.id">
+				AND t.creator = #{creator.id}
+			</if>
+			<if test="null != identify and null != identify.id and '' != identify.id">
+				AND t.identify = #{identify.id}
+			</if>
+		</where>
+	</sql>
+
+	<!-- where-no-alias -->
+	<sql id="where-no-alias">
+		<where>
+			<if test="null != id and id != ''">
+				AND id = #{id}
+			</if>
+			<if test="null != name and '' != name">
+				AND name LIKE CONCAT('%', #{name}, '%')
+			</if>
+			<if test="null != creator and null != creator.id and '' != creator.id">
+				AND creator = #{creator.id}
+			</if>
+			<if test="null != identify and null != identify.id and '' != identify.id">
+				AND identify = #{identify.id}
+			</if>
+		</where>
+	</sql>
+
+	<!-- order-by -->
+	<sql id="order-by">
+	    <![CDATA[ ORDER BY t.update_time DESC, t.create_time DESC ]]>
+	</sql>
+
+	<!-- limit -->
+	<sql id="limit">
+		<if test="null != pagination">
+			limit #{pagination.offset}, #{pagination.pageSize}
+		</if>
+	</sql>
+
+	<!-- insert: 插入单条数据 -->
+	<insert id="insert" parameterType="org.anttribe.vigor.defensor.domain.Role">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+		    <![CDATA[ SELECT LAST_INSERT_ID() ]]>
+		</selectKey>
+		<![CDATA[
+		    INSERT INTO vigor_defensor_t_role_info(name, creator, identify, create_time, update_time, remarks)
+		        VALUES(#{name}, #{creator.id}, #{identify.id}, #{createTime}, #{updateTime}, #{remarks})
+		]]>
+	</insert>
+
+	<!-- batchInsert: 批量插入数据 -->
+	<insert id="batchInsert" parameterType="java.util.List">
+		<![CDATA[
+		    INSERT INTO vigor_defensor_t_role_info(name, creator, identify, create_time, update_time, remarks)
+		        VALUES
+		]]>
+		<foreach collection="list" item="item" separator=", ">
+			<![CDATA[ (#{items.name}, #{items.creator.id}, #{items.identify.id}, #{items.createTime}, #{items.updateTime}. #{items.remarks}) ]]>
+		</foreach>
+	</insert>
+
+	<!-- update: 更新数据 -->
+	<update id="update" parameterType="org.anttribe.vigor.defensor.domain.Role">
+        <![CDATA[
+            UPDATE vigor_defensor_t_role_info
+        ]]>
+		<set>
+			<if test="null != name and name != ''">
+				name = #{name},
+			</if>
+			<if test="null != identify and null != identify.id and '' != identify.id">
+				identify = #{identify.id},
+			</if>
+			<if test="null != updateTime and updateTime != ''">
+				update_time = #{updateTime},
+			</if>
+		</set>
+		<![CDATA[
+            WHERE id = #{id}
+        ]]>
+	</update>
+
+	<!-- batchUpdate: 批量更新数据 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<![CDATA[
+            UPDATE vigor_defensor_t_role_info
+        ]]>
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="name = case id" suffix="end,">
+				<foreach collection="list" item="item">
+					<if test="null != items.name and items.name != ''">
+						when #{item.id} then #{items.name}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		<![CDATA[
+            WHERE id IN 
+        ]]>
+		<foreach collection="list" separator=", " item="item" open="("
+			close=")">
+			#{item.id}
+		</foreach>
+	</update>
+
+	<!-- delete: 删除数据 -->
+	<delete id="delete" parameterType="Map">
+	    <![CDATA[
+            DELETE FROM vigor_defensor_t_role_info
+        ]]>
+		<include refid="where-no-alias"></include>
+	</delete>
+
+	<!-- findAll: 查询所有数据 -->
+	<select id="findAll" resultMap="Role-resultMap">
+		<include refid="select"></include>
+		<include refid="order-by"></include>
+	</select>
+
+	<!-- find: 根据条件查询数据 -->
+	<select id="find" resultMap="Role-resultMap" parameterType="Map">
+		<include refid="select"></include>
+		<include refid="where"></include>
+		<include refid="order-by"></include>
+		<include refid="limit"></include>
+	</select>
+
+	<!-- findById: 根据条件查询单条数据 -->
+	<select id="findById" resultMap="Role-detail-resultMap"
+		parameterType="Map">
+		<include refid="select"></include>
+		<![CDATA[
+		    WHERE id = #{id}
+		]]>
+	</select>
+
+	<!-- count: 根据条件查询数据条数 -->
+	<select id="count" resultType="int">
+		<![CDATA[
+            SELECT COUNT(1)
+              FROM vigor_defensor_t_role_info t
+        ]]>
+		<include refid="where"></include>
+	</select>
+</mapper>

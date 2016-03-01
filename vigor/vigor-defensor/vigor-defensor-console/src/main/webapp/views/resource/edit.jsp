@@ -69,7 +69,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="OPERATOR-selector selector">
+                                    <div class="OPERATOR-selector selector hidden">
                                         <div class="form-group">
                                             <label for="privilege" class="col-lg-2 col-sm-2 control-label"><spring:message code="app.resource.title.privilege" /></label>
                                             <div class="col-lg-8 col-sm-8">
@@ -87,7 +87,11 @@
                                 <div class="form-group">
                                     <label for="isShow" class="col-lg-2 col-sm-2 control-label"><spring:message code="app.resource.title.isShow" /></label>
                                     <div class="col-lg-8 col-sm-8">
-                                        <input type="checkbox" class="js-switch-blue" id="isShow" name="isShow" placeholder="<spring:message code="app.resource.title.name" />">
+                                        <div class="radio">
+                                            <c:forEach items="${yesOrNos}" var="yesOrNo">
+                                                <label><input type="radio" name="isShow" value="${yesOrNo}"><spring:message code="app.common.type.YesOrNo.${yesOrNo}" text="" /></label>
+                                            </c:forEach>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -104,7 +108,9 @@
         </div>
         <!--body wrapper end-->
         
-        <script type="text/javascript" src="${contextPath}/static/static/js/moudles/resource.js"></script>
+        <script type="text/javascript" src="${contextPath}/assets/jquery-validation/jquery.validate.min.js"></script>
+        <script type="text/javascript" src="${contextPath}/assets/jquery-validation/localization/messages_zh.min.js"></script>
+        <script type="text/javascript" src="${contextPath}/assets/jquery.form/jquery.form.js"></script>
         <script type="text/javascript">
 	        $(function(){
 	        	$('.btn-cancel').click(function(){
@@ -118,6 +124,23 @@
 	        			} else{
 	        				$('div.selector', '#resource-type-selector').addClass('hidden');
 	        			}
+	        		}
+	        	});
+	        	
+	        	$('.data-form').validate({
+	        		submitHandler: function(f){
+	        			$(f).ajaxSubmit({
+	        				type: 'POST',
+	        				url: '${contextPath}/resource/edit/exec',
+	        				success: function(r){
+	        					if(r){
+	        						var result = $.parseJSON(r);
+	        						if(result && result.resultCode == '000000'){
+	        							location.href = '${contextPath}/resource';
+	        						}
+	        					}
+	        				}
+	        			});
 	        		}
 	        	});
 	        });

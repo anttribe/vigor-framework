@@ -9,8 +9,8 @@ package org.anttribe.vigor.infra.common.web.controller;
 
 import java.beans.PropertyEditorSupport;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author zhaoyong
@@ -21,7 +21,7 @@ public class CustomStringEditor extends PropertyEditorSupport
     @Override
     public void setAsText(String text)
     {
-        setValue(text == null ? null : StringEscapeUtils.escapeHtml(StringUtils.trim(text)));
+        setValue(text == null ? null : StringEscapeUtils.escapeHtml4(StringUtils.trim(text)));
     }
     
     @Override

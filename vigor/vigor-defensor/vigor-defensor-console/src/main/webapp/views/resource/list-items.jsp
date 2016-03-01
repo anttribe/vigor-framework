@@ -9,7 +9,7 @@
     <tr data-tt-id="${resource.id}" data-tt-parent-id="${resource.parent.id}" data-tt-branch="${fn:length(resource.children) > 0}">
         <td><c:if test="${resource.icon != null and resource.icon != ''}"><i class="${resource.icon}"></i></c:if><c:out value="${resource.name}" /></td>
         <td><spring:message code="app.resource.title.resourceType.${resource.resourceType}" text="" /></td>
-        <td><c:out value="${resource.url}" /></td>
+        <td><c:out value="${resource.resourceUrl}" /></td>
         <td><spring:message code="app.resource.title.resourceTarget.${resource.target}" text="" /></td>
         <td><c:out value="${resource.privilege}" /></td>
         <td><spring:message code="app.common.dict.YesOrNo.${resource.isShow}" text="" /></td>

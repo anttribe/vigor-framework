@@ -53,6 +53,19 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>dubbo</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.sgroschupf</groupId>
+			<artifactId>zkclient</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.sitemesh</groupId>
 			<artifactId>sitemesh</artifactId>
 		</dependency>
@@ -60,7 +73,10 @@
 		<dependency>
 			<groupId>org.anttribe.vigor.vigor-defensor</groupId>
 			<artifactId>vigor-defensor-service</artifactId>
-			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.anttribe.vigor.vigor-defensor</groupId>
+			<artifactId>vigor-defensor-auth</artifactId>
 		</dependency>
 
 		<dependency>

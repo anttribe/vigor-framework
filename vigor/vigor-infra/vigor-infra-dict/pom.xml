@@ -16,5 +16,9 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.anttribe.vigor.vigor-infra</groupId>
+			<artifactId>vigor-infra-persist</artifactId>
+		</dependency>
 	</dependencies>
 </project>

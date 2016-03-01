@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.anttribe.vigor.defensor.dao.IUserDao">
+	<cache readOnly="true" />
+	<resultMap id="User-resultMap" type="org.anttribe.vigor.defensor.domain.User">
+		<id property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="createTime" column="create_time" />
+		<collection property="roles" javaType="java.util.ArrayList"
+			ofType="org.anttribe.vigor.defensor.domain.UserRole" column="{user.id = id}"
+			select="org.anttribe.vigor.defensor.dao.IUserRoleDao.find"></collection>
+	</resultMap>
+
+	<!-- select -->
+	<sql id="select">
+        <![CDATA[
+            SELECT t.id, t.username, t.password, t.create_time
+              FROM vigor_defensor_t_user_info t
+        ]]>
+	</sql>
+
+	<!-- where -->
+	<sql id="where">
+		<where>
+			<if test="null != id and id != ''">
+				AND t.id = #{id}
+			</if>
+			<if test="null != username and '' != username">
+				AND t.username LIKE CONCAT('%', #{username}, '%')
+			</if>
+		</where>
+	</sql>
+
+	<!-- where-no-alias -->
+	<sql id="where-no-alias">
+		<where>
+			<if test="null != id and id != ''">
+				AND id = #{id}
+			</if>
+			<if test="null != username and '' != username">
+				AND name LIKE CONCAT('%', #{name}, '%')
+			</if>
+		</where>
+	</sql>
+
+	<!-- order-by -->
+	<sql id="order-by">
+	    <![CDATA[ ORDER BY t.create_time DESC ]]>
+	</sql>
+
+	<!-- limit -->
+	<sql id="limit">
+		<if test="null != pagination">
+			limit #{pagination.offset}, #{pagination.pageSize}
+		</if>
+	</sql>
+
+	<!-- insert: 插入单条数据 -->
+	<insert id="insert" parameterType="org.anttribe.vigor.defensor.domain.User">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+		    <![CDATA[ SELECT LAST_INSERT_ID() ]]>
+		</selectKey>
+		<![CDATA[
+		    INSERT INTO vigor_defensor_t_user_info(username, password, create_time)
+		        VALUES(#{username}, #{password}, #{createTime})
+		]]>
+	</insert>
+
+	<!-- batchInsert: 批量插入数据 -->
+	<insert id="batchInsert" parameterType="java.util.List">
+		<![CDATA[
+		    INSERT INTO vigor_defensor_t_user_info(username, password, create_time)
+		        VALUES
+		]]>
+		<foreach collection="list" item="item" separator=", ">
+			<![CDATA[ (#{item.username}, #{item.password}, #{item.createTime}) ]]>
+		</foreach>
+	</insert>
+
+	<!-- update: 更新数据 -->
+	<update id="update" parameterType="org.anttribe.vigor.defensor.domain.User">
+        <![CDATA[
+            UPDATE vigor_defensor_t_user_info
+        ]]>
+		<set>
+			<if test="null != username and username != ''">
+				username = #{username},
+			</if>
+			<if test="null != updateTime and updateTime != ''">
+				update_time = #{updateTime},
+			</if>
+		</set>
+		<![CDATA[
+            WHERE id = #{id}
+        ]]>
+	</update>
+
+	<!-- batchUpdate: 批量更新数据 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<![CDATA[
+            UPDATE vigor_defensor_t_user_info
+        ]]>
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="username = case id" suffix="end,">
+				<foreach collection="list" item="item">
+					<if test="null != items.username and items.username != ''">
+						when #{item.id} then #{items.username}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		<![CDATA[
+            WHERE id IN 
+        ]]>
+		<foreach collection="list" separator=", " item="item" open="("
+			close=")">
+			#{item.id}
+		</foreach>
+	</update>
+
+	<!-- delete: 删除数据 -->
+	<delete id="delete" parameterType="Map">
+	    <![CDATA[
+            DELETE FROM wa_defensor_t_user_info
+        ]]>
+		<include refid="where-no-alias"></include>
+	</delete>
+
+	<!-- findAll: 查询所有数据 -->
+	<select id="findAll" resultMap="User-resultMap">
+		<include refid="select"></include>
+		<include refid="order-by"></include>
+	</select>
+
+	<!-- find: 根据条件查询数据 -->
+	<select id="find" parameterType="Map" resultMap="User-resultMap">
+		<include refid="select"></include>
+		<include refid="where"></include>
+		<include refid="order-by"></include>
+		<include refid="limit"></include>
+	</select>
+
+	<!-- count: 根据条件查询数据条数 -->
+	<select id="count" resultType="int">
+		<![CDATA[
+            SELECT COUNT(1)
+              FROM vigor_defensor_t_user_info t
+        ]]>
+		<include refid="where"></include>
+	</select>
+</mapper>
