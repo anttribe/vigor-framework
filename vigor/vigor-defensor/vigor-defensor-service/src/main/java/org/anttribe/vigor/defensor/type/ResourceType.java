@@ -26,12 +26,8 @@ public enum ResourceType
         public String assemblePermission(Resource resource)
         {
             String resourceUrl = resource.getResourceUrl();
-            if (!StringUtils.isEmpty(resourceUrl))
-            {
-                String[] substrs = resourceUrl.split("/");
-                return this.name() + StringUtils.join(substrs, ":");
-            }
-            return null;
+            return this.name() + (StringUtils.isEmpty(resourceUrl) ? ":" + resource.getId()
+                : StringUtils.join(resourceUrl.split("/"), ":"));
         }
     },
     /** 页面 */

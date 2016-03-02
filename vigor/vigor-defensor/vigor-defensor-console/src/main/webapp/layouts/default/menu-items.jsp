@@ -8,9 +8,25 @@
 <c:forEach items="${menus}" var="menu">
     <c:if test="${menu.resourceType == 'MENU' or menu.resourceType == 'PAGE'}">
         <li class="<c:if test="${fn:length(menu.children) > 0}">menu-list</c:if>">
-            <a href="${menu.resourceType == 'MENU' ? contextPath : ''}${menu.resourceUrl}" targat="${menu.target}"><i class="${menu.icon}"></i> <span class="title"><c:out value="${menu.name}" /></span></a>
+            <c:choose>
+                <c:when test="${menu.resourceUrl != null and menu.resourceUrl != ''}">
+                    <a href="${menu.resourceType == 'MENU' ? contextPath : ''}${menu.resourceUrl}" targat="${menu.target}">
+                </c:when>
+                <c:otherwise>
+                    <a href="javascript:void(0);">
+                </c:otherwise>
+            </c:choose>
+                <c:if test="${menu.icon != null and menu.icon != ''}"><i class="${menu.icon}"></i> </c:if>
+                <c:choose>
+                    <c:when test="${level == 0}">
+                        <span><c:out value="${menu.name}" /></span>
+                    </c:when>
+                    <c:otherwise><c:out value="${menu.name}" /></c:otherwise>
+                </c:choose>
+            </a>
 	        <c:if test="${fn:length(menu.children) > 0}">
                 <c:set var="menus" value="${menu.children}" scope="request" />
+                <c:set var="level" value="${level + 1}" scope="request" />
                 <ul class="sub-menu-list">
                     <c:import url="menu-items.jsp" />
                 </ul>

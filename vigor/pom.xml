@@ -276,6 +276,11 @@
 				<artifactId>vigor-infra-dict</artifactId>
 				<version>${project.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>org.anttribe.vigor.vigor-infra</groupId>
+				<artifactId>vigor-infra-security</artifactId>
+				<version>${project.version}</version>
+			</dependency>
 
 			<dependency>
 				<groupId>org.anttribe.vigor.vigor-defensor</groupId>

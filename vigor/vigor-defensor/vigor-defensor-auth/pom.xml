@@ -43,6 +43,10 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.anttribe.vigor.vigor-infra</groupId>
+			<artifactId>vigor-infra-security</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.anttribe.vigor.vigor-defensor</groupId>
 			<artifactId>vigor-defensor-service</artifactId>
 		</dependency>

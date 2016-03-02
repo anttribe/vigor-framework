@@ -66,7 +66,8 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
             {
                 resources = resourceService.listUserResources(user, user.getIdentify());
             }
-            this.processUserPermision(authorizationInfo, resources);
+            List<String> permissions = this.processUserPermision(resources);
+            authorizationInfo.addStringPermissions(permissions);
             
             return authorizationInfo;
         }
@@ -76,11 +77,11 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
     /**
      * 处理用户权限
      * 
-     * @param authorizationInfo
      * @param resources
      */
-    private void processUserPermision(SimpleAuthorizationInfo authorizationInfo, List<Resource> resources)
+    private List<String> processUserPermision(List<Resource> resources)
     {
+        List<String> permissions = new ArrayList<String>();
         if (!CollectionUtils.isEmpty(resources))
         {
             for (Resource resource : resources)
@@ -95,11 +96,10 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
                 {
                     continue;
                 }
-                authorizationInfo.addStringPermission(permission);
-                
-                this.processUserPermision(authorizationInfo, resource.getChildren());
+                permissions.addAll(this.processUserPermision(resource.getChildren()));
             }
         }
+        return permissions;
     }
     
     @Override

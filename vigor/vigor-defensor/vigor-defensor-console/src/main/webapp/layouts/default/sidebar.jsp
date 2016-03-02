@@ -16,8 +16,9 @@
     <div class="left-side-inner">
         <!--sidebar nav start-->
         <ul class="nav nav-pills nav-stacked custom-nav">
-            <c:set var="menus" value="${MENUS}" scope="session" />
-            <c:import url="menu-items.jsp" />    
+            <c:set var="menus" value="${MENUS}" scope="request" />
+            <c:set var="level" value="0" scope="request" />
+            <c:import url="menu-items.jsp" />
         </ul>
         <!--sidebar nav end-->
     </div>
