@@ -12,14 +12,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.anttribe.vigor.defensor.auth.UsernamePasswordToken;
 import org.anttribe.vigor.defensor.auth.constants.Keys;
+import org.anttribe.vigor.defensor.auth.credential.DefensorCredentialsMatcher;
 import org.anttribe.vigor.defensor.domain.Resource;
 import org.anttribe.vigor.defensor.domain.User;
 import org.anttribe.vigor.defensor.service.IResourceService;
 import org.anttribe.vigor.defensor.service.IRoleService;
 import org.anttribe.vigor.defensor.service.IUserService;
 import org.anttribe.vigor.defensor.type.ResourceType;
+import org.anttribe.vigor.infra.security.DefaultPasswordService;
+import org.anttribe.vigor.infra.security.PasswordService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -33,6 +38,8 @@ import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author zhaoyong
@@ -40,6 +47,8 @@ import org.apache.shiro.subject.PrincipalCollection;
  */
 public class DefensorAuthorizingRealm extends AuthorizingRealm
 {
+    
+    private static final Logger logger = LoggerFactory.getLogger(DefensorAuthorizingRealm.class);
     
     @javax.annotation.Resource
     private IUserService userService;
@@ -49,6 +58,16 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
     
     @javax.annotation.Resource
     private IResourceService resourceService;
+    
+    private PasswordService passwordService = new DefaultPasswordService();
+    
+    @PostConstruct
+    public void initCredentialsMatcher()
+    {
+        DefensorCredentialsMatcher matcher = new DefensorCredentialsMatcher();
+        matcher.setPasswordService(passwordService);
+        setCredentialsMatcher(matcher);
+    }
     
     @SuppressWarnings("unchecked")
     @Override
@@ -119,6 +138,15 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
                 throw new UnknownAccountException();
             }
             
+            // 验证用户密码
+            boolean passwordMatch =
+                passwordService.passwordsMatch(new String(usernamePasswordToken.getPassword()), user.getPassword());
+            if (!passwordMatch)
+            {
+                logger.warn("Failed to login with the password not match.");
+                throw new AuthenticationException("Failed to login with the password not match.");
+            }
+            
             // 将用户信息放置session中
             Session session = SecurityUtils.getSubject().getSession();
             session.setAttribute(Keys.KEY_USER_SESSION, user);
@@ -164,6 +192,11 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
             }
         }
         return menuResources;
+    }
+    
+    public void setPasswordService(PasswordService passwordService)
+    {
+        this.passwordService = passwordService;
     }
     
 }

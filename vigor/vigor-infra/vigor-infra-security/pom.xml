@@ -25,5 +25,11 @@
 			<groupId>org.anttribe.vigor.vigor-infra</groupId>
 			<artifactId>vigor-infra-common</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>

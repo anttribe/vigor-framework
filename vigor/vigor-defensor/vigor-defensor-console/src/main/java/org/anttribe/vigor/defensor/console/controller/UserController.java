@@ -23,6 +23,9 @@ import org.anttribe.vigor.infra.common.errorno.SystemErrorNo;
 import org.anttribe.vigor.infra.common.exception.ServiceException;
 import org.anttribe.vigor.infra.common.exception.UnifyException;
 import org.anttribe.vigor.infra.common.web.controller.AbstractController;
+import org.anttribe.vigor.infra.security.PasswordService;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,6 +41,9 @@ public class UserController extends AbstractController
 {
     @Resource
     private IUserService userService;
+    
+    @Autowired
+    private PasswordService passwordService;
     
     @RequestMapping({"", "/", "/index"})
     public ModelAndView index(HttpServletRequest request, ModelAndView mv, User user)
@@ -87,6 +93,12 @@ public class UserController extends AbstractController
         try
         {
             // TODO： 数据校验
+            
+            String password = user.getPassword();
+            if (!StringUtils.isEmpty(password))
+            {
+                user.setPassword(passwordService.encryptPassword(password));
+            }
             userService.persistentEntity(user);
             result.setResultCode(Constants.Common.DEFAULT_RESULT_CODE);
         }

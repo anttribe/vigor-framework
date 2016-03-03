@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2005-2012 springside.org.cn
  */
-package org.anttribe.vigor.infra.security;
+package org.anttribe.vigor.infra.security.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -62,7 +62,7 @@ public class Digests
     /**
      * 对字符串进行散列, 支持md5与sha1算法.
      */
-    private static byte[] digest(byte[] input, String algorithm, byte[] salt, int iterations)
+    public static byte[] digest(byte[] input, String algorithm, byte[] salt, int iterations)
     {
         try
         {

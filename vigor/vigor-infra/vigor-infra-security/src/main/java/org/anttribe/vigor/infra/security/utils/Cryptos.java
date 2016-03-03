@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2005-2012 springside.org.cn
  */
-package org.anttribe.vigor.infra.security;
+package org.anttribe.vigor.infra.security.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;

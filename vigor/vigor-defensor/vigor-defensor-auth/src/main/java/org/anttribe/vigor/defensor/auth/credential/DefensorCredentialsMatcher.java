@@ -7,9 +7,10 @@
  */
 package org.anttribe.vigor.defensor.auth.credential;
 
+import org.anttribe.vigor.defensor.auth.UsernamePasswordToken;
+import org.anttribe.vigor.infra.security.PasswordService;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SaltedAuthenticationInfo;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 
 /**
@@ -19,51 +20,20 @@ import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
 public class DefensorCredentialsMatcher extends SimpleCredentialsMatcher
 {
     
-    /**
-     * hash算法
-     */
-    private String hashAlgorithm;
-    
-    /**
-     * hash处理迭代次数
-     */
-    private int hashIterations;
+    private PasswordService passwordService;
     
     @Override
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info)
     {
-        Object tokenCredentials = hashProvidedCredentials(token, info);
+        UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken)token;
         Object accountCredentials = getCredentials(info);
-        return equals(tokenCredentials, accountCredentials);
+        return passwordService.passwordsMatch(new String(usernamePasswordToken.getPassword()),
+            (String)accountCredentials);
     }
     
-    private Object hashProvidedCredentials(AuthenticationToken token, AuthenticationInfo info)
+    public void setPasswordService(PasswordService passwordService)
     {
-        Object salt = null;
-        if (info instanceof SaltedAuthenticationInfo)
-        {
-            salt = ((SaltedAuthenticationInfo)info).getCredentialsSalt();
-        }
-        return null; // hashProvidedCredentials(token.getCredentials(), salt, getHashIterations());
+        this.passwordService = passwordService;
     }
     
-    public String getHashAlgorithm()
-    {
-        return hashAlgorithm;
-    }
-    
-    public void setHashAlgorithm(String hashAlgorithm)
-    {
-        this.hashAlgorithm = hashAlgorithm;
-    }
-    
-    public int getHashIterations()
-    {
-        return hashIterations;
-    }
-    
-    public void setHashIterations(int hashIterations)
-    {
-        this.hashIterations = hashIterations;
-    }
 }
