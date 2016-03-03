@@ -24,3 +24,5 @@
     </div>
 </div>
 <!-- left side end-->
+<script type="text/javascript">
+</script>

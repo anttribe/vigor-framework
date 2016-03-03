@@ -70,12 +70,12 @@
                                         </div>
                                     </div>
                                     <div class="OPERATOR-selector selector hidden">
-                                        <div class="form-group">
-                                            <label for="privilege" class="col-lg-2 col-sm-2 control-label"><spring:message code="app.resource.title.privilege" /></label>
-                                            <div class="col-lg-8 col-sm-8">
-                                                <input type="text" id="privilege" name="privilege" value="${PARAM.privilege}" class="form-control" maxLength="30" placeholder="<spring:message code="app.resource.placeholder.privilege" />">
-                                            </div>
-                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="privilege" class="col-lg-2 col-sm-2 control-label"><spring:message code="app.resource.title.privilege" /></label>
+                                    <div class="col-lg-8 col-sm-8">
+                                        <input type="text" id="privilege" name="privilege" value="${PARAM.privilege}" class="form-control" maxLength="30" placeholder="<spring:message code="app.resource.placeholder.privilege" />">
                                     </div>
                                 </div>
                                 <div class="form-group">

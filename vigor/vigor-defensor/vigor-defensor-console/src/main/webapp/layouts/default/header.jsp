@@ -26,6 +26,9 @@
                         <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
+                        <li><a href="#"><i class="fa fa-user"></i>  Profile</a></li>
+                        <li><a href="#"><i class="fa fa-cog"></i>  Settings</a></li>
+                        <li><a href="${contextPath}/signout"><i class="fa fa-sign-out"></i> <spring:message code="app.user.title.signout" /></a></li>
                     </ul>
                 </li>
             </ul>

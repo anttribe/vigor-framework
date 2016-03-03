@@ -13,10 +13,10 @@
         <meta name="description" content="<spring:message code="app.description" />">
         <title><spring:message code="app.appname" /> - <sitemesh:write property='title'/></title>
         <%@include file="stylesheet.jsp" %>
-        <%@include file="javascript.jsp" %>
+        <%@include file="javascript-required.jsp" %>
         <sitemesh:write property='head'/>
     </head>
-    <body class="sticky-header left-side-collapsed">
+    <body class="sticky-header">
         <%@include file="header.jsp" %>
         <section>
             <%@include file="sidebar.jsp" %>
@@ -25,6 +25,7 @@
                 <%@include file="footer.jsp" %>
             </div>
         </section>
+        <%@include file="javascript.jsp" %>
         <script type="text/javascript" src="${contextPath}/assets/adminEx/js/adminEx.js"></script>
     </body>
 </html>
