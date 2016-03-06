@@ -8,6 +8,8 @@
 <html lang="en_US">
     <head>
         <title><spring:message code="app.resource.title" /></title>
+        <link rel="stylesheet" type="text/css" href="${contextPath}/assets/jquery.icheck/skins/all.css" />
+        <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/jquery.validation.css" />
     </head>
     <body>
         <div class="clearfix"></div>
@@ -24,11 +26,11 @@
                                 <input type="hidden" name="id" value="${PARAM.id}" />
                                 <input type="hidden" name="parent.id" value="${PARAM.parent.id}" />
                                 <div class="form-group">
-                                    <label for="parent" class="col-lg-2 col-sm-2 control-label"><spring:message code="app.resource.title.parent" /></label>
+                                    <label for="parentSelector" class="col-lg-2 col-sm-2 control-label"><spring:message code="app.resource.title.parent" /></label>
                                     <div class="col-lg-8 col-sm-8">
                                         <div class="iconic-input right">
                                             <i class="fa fa-search"></i>
-                                            <input type="text" id="parent" value="<c:out value="${PARAM.parent.name}" />" class="form-control" readonly="readonly" placeholder="<spring:message code="app.resource.placeholder.parent" />">
+                                            <input type="text" id="parentSelector" value="<c:out value="${PARAM.parent.name}" />" class="form-control" readonly="readonly" placeholder="<spring:message code="app.resource.placeholder.parent" />">
                                         </div>
                                     </div>
                                 </div>
@@ -87,9 +89,13 @@
                                 <div class="form-group">
                                     <label for="isShow" class="col-lg-2 col-sm-2 control-label"><spring:message code="app.resource.title.isShow" /></label>
                                     <div class="col-lg-8 col-sm-8">
-                                        <div class="radio">
+                                        <div class="icheck">
                                             <c:forEach items="${yesOrNos}" var="yesOrNo">
-                                                <label><input type="radio" name="isShow" value="${yesOrNo}"><spring:message code="app.common.type.YesOrNo.${yesOrNo}" text="" /></label>
+                                                <div class="square-green single-row">
+                                                     <div class="radio">
+                                                         <input type="radio" name="isShow" value="${yesOrNo}" <c:if test="${PARAM.isShow == yesOrNo}">checked</c:if>><spring:message code="app.common.type.YesOrNo.${yesOrNo}" text="" />
+                                                     </div>
+                                                </div>
                                             </c:forEach>
                                         </div>
                                     </div>
@@ -111,19 +117,50 @@
         <script type="text/javascript" src="${contextPath}/assets/jquery-validation/jquery.validate.min.js"></script>
         <script type="text/javascript" src="${contextPath}/assets/jquery-validation/localization/messages_zh.min.js"></script>
         <script type="text/javascript" src="${contextPath}/assets/jquery.form/jquery.form.js"></script>
+        <script type="text/javascript" src="${contextPath}/assets/jquery.icheck/jquery.icheck.min.js"></script>
+        <script type="text/javascript" src="${contextPath}/static/js/moudles/resource.js"></script>
+        <script type="text/javascript">
+            var resourceSelector = null;
+            var selectResource = function(resource){
+    			if(resource){
+    				$('input[name="parent.id"]').val(resource.id);
+    				$('input[id="parentSelector"]').val(resource.name);
+    			}
+            	if(resourceSelector){
+            		resourceSelector.close();
+    			}
+            };
+            var changeResourceType = function(resourceType){
+            	if(resourceType){
+    				$('.' + resourceType + '-selector', '#resource-type-selector').removeClass('hidden').siblings().addClass('hidden');
+    			} else{
+    				$('div.selector', '#resource-type-selector').addClass('hidden');
+    			}
+            };
+        </script>
         <script type="text/javascript">
 	        $(function(){
+	        	$('.square-green input').iCheck({
+	                checkboxClass: 'icheckbox_square-green',
+	                radioClass: 'iradio_square-green',
+	                increaseArea: '20%' // optional
+	            });
+	        	
+	        	$('input[id="parentSelector"]').bind({
+	        		'click': function(){
+	        			resourceSelector = defensor.resource.resourceSelector({title: '<spring:message code="app.resource.select.title" />'});
+	        			if(resourceSelector){
+	        				resourceSelector.open();
+	        			}
+	        		}
+	        	});
 	        	$('.btn-cancel').click(function(){
 	        		location.href = contextPath + '/resource';
 	        	});
 	        	$('#resourceType').bind({
 	        		'change': function(){
 	        			var resourceType = $(this).val();
-	        			if(resourceType){
-	        				$('.' + resourceType + '-selector', '#resource-type-selector').removeClass('hidden').siblings().addClass('hidden');
-	        			} else{
-	        				$('div.selector', '#resource-type-selector').addClass('hidden');
-	        			}
+	        			changeResourceType(resourceType);
 	        		}
 	        	});
 	        	
@@ -143,6 +180,9 @@
 	        			});
 	        		}
 	        	});
+	        	
+	        	//初始化
+	        	changeResourceType('${PARAM.resourceType}');
 	        });
 	    </script>
     </body>

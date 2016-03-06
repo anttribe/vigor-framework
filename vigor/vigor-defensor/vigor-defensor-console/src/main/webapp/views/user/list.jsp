@@ -34,7 +34,7 @@
                                             <th><spring:message code="app.user.title.username" /></th>
                                             <th><spring:message code="app.user.title.role" /></th>
                                             <th><spring:message code="app.user.title.createTime" /></th>
-                                            <th width="10%"><spring:message code="app.common.action.operate" /></th>
+                                            <th><spring:message code="app.common.action.operate" /></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -50,13 +50,14 @@
                                                 </td>
                                                 <td><fmt:formatDate value="${user.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                                 <td>
-                                                    <a href="${contextPath}/user/edit?id=${user.id}" class="btn btn-info btn-sm"><spring:message code="app.common.action.edit" /></a>
-                                                    <a href="#none" class="btn btn-danger btn-sm btn-delete"><spring:message code="app.common.action.delete" /></a>
+                                                    <a href="${contextPath}/user/edit?id=${user.id}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> <spring:message code="app.common.action.edit" /></a>
+                                                    <a href="#none" class="btn btn-danger btn-sm btn-delete"><i class="fa fa-trash-o"></i> <spring:message code="app.common.action.delete" /></a>
                                                 </td>
                                             </tr>
                                         </c:forEach>
                                     </tbody>
                                 </table>
+                                <%@include file="../components/pagination.jsp" %>
                             </div>
                         </div>
                     </section>
@@ -76,10 +77,12 @@
 	        		var roleId = $(this).parents('tr').attr('data-id');
 	        		if(roleId){
 	        			BootstrapDialog.confirm({
+	        				size: BootstrapDialog.SIZE_NORMAL,
+            				type: BootstrapDialog.TYPE_WARNING,
+            				draggable: true,
+            				closable: true,
 	        				title: '<spring:message code="app.user.title.delete" />',
 	        	            message: '<spring:message code="app.user.title.delete.message" />',
-	        	            btnCancelLabel: '<spring:message code="app.common.action.cancel" />',
-	        	            btnOKLabel: '<spring:message code="app.common.action.confirm" />',
 	        	            callback: function(f){
 	        	            	if(f){
 	        	            		$.ajax({

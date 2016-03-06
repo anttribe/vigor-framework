@@ -10,7 +10,7 @@
         <li class="<c:if test="${fn:length(menu.children) > 0}">menu-list</c:if>">
             <c:choose>
                 <c:when test="${menu.resourceUrl != null and menu.resourceUrl != ''}">
-                    <a href="${menu.resourceType == 'MENU' ? contextPath : ''}${menu.resourceUrl}" targat="${menu.target}">
+                    <a href="${menu.resourceType == 'MENU' ? contextPath : ''}${menu.resourceUrl}" target="_${fn:toLowerCase(menu.target)}">
                 </c:when>
                 <c:otherwise>
                     <a href="javascript:void(0);">
@@ -34,3 +34,4 @@
 	    </li>
     </c:if>
 </c:forEach>
+<c:set var="level" value="${level - 1}" scope="request" />

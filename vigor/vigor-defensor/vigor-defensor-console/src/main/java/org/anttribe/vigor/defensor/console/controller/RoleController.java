@@ -24,6 +24,7 @@ import org.anttribe.vigor.infra.common.errorno.SystemErrorNo;
 import org.anttribe.vigor.infra.common.exception.ServiceException;
 import org.anttribe.vigor.infra.common.exception.UnifyException;
 import org.anttribe.vigor.infra.common.web.controller.AbstractController;
+import org.anttribe.vigor.infra.persist.entity.Pagination;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,14 +45,15 @@ public class RoleController extends AbstractController
     private IResourceService resourceService;
     
     @RequestMapping({"", "/", "/index"})
-    public ModelAndView index(HttpServletRequest request, ModelAndView mv, Role role)
+    public ModelAndView index(HttpServletRequest request, ModelAndView mv, Role role, Pagination pagination)
     {
         mv.setViewName(Views.INDEX_VIEW);
         
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("name", role.getName());
-        List<Role> roles = roleService.listEntities(criteria);
-        mv.addObject(Keys.KEY_PAGE_DATA, roles);
+        pagination = roleService.listEntities(criteria, pagination);
+        mv.addObject(Keys.KEY_PAGINATION, pagination);
+        mv.addObject(Keys.KEY_PAGE_DATA, null != pagination ? pagination.getDatas() : null);
         return mv;
     }
     

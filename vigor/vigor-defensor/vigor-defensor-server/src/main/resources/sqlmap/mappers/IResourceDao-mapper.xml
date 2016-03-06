@@ -138,35 +138,21 @@
 			<if test="null != name and name != ''">
 				name = #{name},
 			</if>
-			<if test="null != resourceType and resourceType != ''">
-				resource_type = #{resourceType},
-			</if>
-			<if test="null != resourceUrl and resourceUrl != ''">
-				resource_url = #{resourceUrl},
-			</if>
-			<if test="null != target and target != ''">
-				target = #{target},
-			</if>
-			<if test="null != privilege and privilege != ''">
-				privilege = #{privilege},
-			</if>
-			<if test="null != icon and icon != ''">
-				icon = #{icon},
-			</if>
-			<if test="null != parent and null != parent.id and parent.id != ''">
-				parent = #{parent.id},
-			</if>
+			resource_type = #{resourceType},
+			resource_url = #{resourceUrl},
+			target = #{target},
+			privilege = #{privilege},
+			icon = #{icon},
+			parent = #{parent.id},
 			<if test="null != sortNo and sortNo != ''">
 				sort_no = #{sortNo},
 			</if>
-			<if test="null != isShow and isShow != ''">
-				is_show = #{isShow},
-			</if>
+			is_show = #{isShow},
 			<if test="null != updateTime and updateTime != ''">
 				update_time = #{updateTime},
 			</if>
 		</set>
-		<include refid="where-no-alias"></include>
+		<![CDATA[ WHERE id = #{id} ]]>
 	</update>
 
 	<!-- delete: 删除数据 -->

@@ -13,6 +13,27 @@ $.extend(defensor, {
 	        		}
 	        	}
 	        });
-		}
+		},
+		resourceSelector: function(options){
+			return new BootstrapDialog({
+				size: BootstrapDialog.SIZE_NORMAL,
+				type: BootstrapDialog.TYPE_DEFAULT,
+				draggable: true,
+				closable: true,
+	            title: (options && options.title) || '',
+	            message: $('<div></div>').load(contextPath + '/resource/tool/selector'),
+	            buttons: [{
+	            	label: BootstrapDialog.DEFAULT_TEXTS.CANCEL,
+	            	action: function(dialogRef) {
+	            		dialogRef.close();
+	                }
+	            }]
+	        });
+		},
+		selectResource: function(resource){
+    		if(resource){
+    			(window || window.parent).selectResource(resource);
+    		}
+    	}
 	}
 });

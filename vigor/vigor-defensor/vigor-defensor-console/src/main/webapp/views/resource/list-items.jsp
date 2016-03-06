@@ -2,6 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"  %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
@@ -12,10 +13,11 @@
         <td><c:out value="${resource.resourceUrl}" /></td>
         <td><spring:message code="app.resource.title.resourceTarget.${resource.target}" text="" /></td>
         <td><c:out value="${resource.privilege}" /></td>
-        <td><spring:message code="app.common.dict.YesOrNo.${resource.isShow}" text="" /></td>
+        <td><spring:message code="app.common.type.YesOrNo.${resource.isShow}" text="" /></td>
         <td>
-            <a href="${contextPath}/resource/edit?id=${resource.id}"><spring:message code="app.common.action.edit" /></a>
-            <a href="${contextPath}/resource/add?parent.id=${resource.id}"><spring:message code="app.resource.action.addChild" /></a>
+            <a href="${contextPath}/resource/edit?id=${resource.id}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> <spring:message code="app.common.action.edit" /></a>
+            <a href="${contextPath}/resource/add?parent.id=${resource.id}" class="btn btn-success btn-sm"><i class="fa fa-list-alt"></i> <spring:message code="app.resource.action.addChild" /></a>
+            <a href="javascript:void(0);" class="btn btn-danger btn-sm btn-delete"><i class="fa fa-trash-o"></i> <spring:message code="app.common.action.delete" /></a>
         </td>
     </tr>
     <c:if test="${fn:length(resource.children) > 0}">

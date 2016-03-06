@@ -8,7 +8,6 @@
 package org.anttribe.vigor.defensor.console.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -23,6 +22,7 @@ import org.anttribe.vigor.infra.common.errorno.SystemErrorNo;
 import org.anttribe.vigor.infra.common.exception.ServiceException;
 import org.anttribe.vigor.infra.common.exception.UnifyException;
 import org.anttribe.vigor.infra.common.web.controller.AbstractController;
+import org.anttribe.vigor.infra.persist.entity.Pagination;
 import org.anttribe.vigor.infra.security.PasswordService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,14 +46,15 @@ public class UserController extends AbstractController
     private PasswordService passwordService;
     
     @RequestMapping({"", "/", "/index"})
-    public ModelAndView index(HttpServletRequest request, ModelAndView mv, User user)
+    public ModelAndView index(HttpServletRequest request, ModelAndView mv, User user, Pagination pagination)
     {
         mv.setViewName(Views.INDEX_VIEW);
         
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("username", user.getUsername());
-        List<User> users = userService.listEntities(criteria);
-        mv.addObject(Keys.KEY_PAGE_DATA, users);
+        pagination = userService.listEntities(criteria, pagination);
+        mv.addObject(Keys.KEY_PAGINATION, pagination);
+        mv.addObject(Keys.KEY_PAGE_DATA, null != pagination ? pagination.getDatas() : null);
         return mv;
     }
     

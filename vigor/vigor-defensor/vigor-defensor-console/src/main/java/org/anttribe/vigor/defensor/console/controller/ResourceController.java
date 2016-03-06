@@ -76,6 +76,12 @@ public class ResourceController extends AbstractController
         return result;
     }
     
+    @RequestMapping("/tool/selector")
+    public String select(HttpServletRequest request, Resource resource)
+    {
+        return Views.SELECTOR_VIEW;
+    }
+    
     @RequestMapping("/add")
     public ModelAndView add(HttpServletRequest request, ModelAndView mv, Resource resource)
     {
@@ -174,6 +180,11 @@ public class ResourceController extends AbstractController
          * 编辑视图
          */
         public static final String EDIT_VIEW = "/resource/edit";
+        
+        /**
+         * 选择器视图
+         */
+        public static final String SELECTOR_VIEW = "/resource/tool.selector";
     }
     
 }

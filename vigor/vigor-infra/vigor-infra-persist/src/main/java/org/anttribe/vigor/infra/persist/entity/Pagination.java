@@ -7,6 +7,7 @@
  */
 package org.anttribe.vigor.infra.persist.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,8 +16,13 @@ import java.util.List;
  * @author zhaoyong
  * @version 2016年2月22日
  */
-public class Pagination
+public class Pagination implements Serializable
 {
+    /**
+     * serialVersionUID
+     */
+    private static final long serialVersionUID = -3535388304955658448L;
+    
     /**
      * 默认分页大小
      */

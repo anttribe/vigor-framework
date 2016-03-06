@@ -13,10 +13,11 @@
         <meta name="description" content="<spring:message code="app.description" />">
         <title><spring:message code="app.appname" /> - <sitemesh:write property='title'/></title>
         <%@include file="stylesheet.jsp" %>
-        <%@include file="javascript.jsp" %>
+        <%@include file="javascript-required.jsp" %>
         <sitemesh:write property='head'/>
     </head>
     <body class="login-body">
         <sitemesh:write property='body'/>
+        <%@include file="javascript.jsp" %>
     </body>
 </html>
