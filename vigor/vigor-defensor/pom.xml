@@ -19,9 +19,8 @@
 
 	<modules>
 		<module>vigor-defensor-service</module>
-		<module>vigor-defensor-server</module>
-		<module>vigor-defensor-console</module>
 		<module>vigor-defensor-auth</module>
+		<module>vigor-defensor-console</module>
 	</modules>
 
 	<dependencies>

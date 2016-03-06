@@ -10,7 +10,6 @@ package org.anttribe.vigor.defensor.console.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.anttribe.vigor.defensor.domain.User;
@@ -39,7 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/user")
 public class UserController extends AbstractController
 {
-    @Resource
+    @Autowired
     private IUserService userService;
     
     @Autowired

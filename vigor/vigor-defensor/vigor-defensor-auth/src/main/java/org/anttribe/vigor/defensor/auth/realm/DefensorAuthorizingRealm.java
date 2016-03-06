@@ -40,6 +40,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author zhaoyong
@@ -50,13 +51,13 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
     
     private static final Logger logger = LoggerFactory.getLogger(DefensorAuthorizingRealm.class);
     
-    @javax.annotation.Resource
+    @Autowired
     private IUserService userService;
     
-    @javax.annotation.Resource
+    @Autowired
     private IRoleService roleService;
     
-    @javax.annotation.Resource
+    @Autowired
     private IResourceService resourceService;
     
     private PasswordService passwordService = new DefaultPasswordService();

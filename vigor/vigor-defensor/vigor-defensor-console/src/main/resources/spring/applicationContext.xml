@@ -19,8 +19,13 @@
 		</property>
 	</bean>
 
+	<context:component-scan base-package="org.anttribe.vigor.defensor">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
 	<!-- import other layer definitions -->
+	<import resource="applicationContext-datasource.xml" />
 	<import resource="applicationContext-security.xml" />
 	<import resource="applicationContext-shiro.xml" />
-	<import resource="applicationContext-dubbox.xml" />
 </beans>

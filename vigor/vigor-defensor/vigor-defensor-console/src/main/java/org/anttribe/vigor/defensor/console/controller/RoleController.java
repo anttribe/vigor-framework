@@ -11,11 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.anttribe.vigor.defensor.domain.Role;
-import org.anttribe.vigor.defensor.service.IResourceService;
 import org.anttribe.vigor.defensor.service.IRoleService;
 import org.anttribe.vigor.infra.common.constants.Constants;
 import org.anttribe.vigor.infra.common.constants.Keys;
@@ -25,6 +23,7 @@ import org.anttribe.vigor.infra.common.exception.ServiceException;
 import org.anttribe.vigor.infra.common.exception.UnifyException;
 import org.anttribe.vigor.infra.common.web.controller.AbstractController;
 import org.anttribe.vigor.infra.persist.entity.Pagination;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,11 +37,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/role")
 public class RoleController extends AbstractController
 {
-    @Resource
+    @Autowired
     private IRoleService roleService;
-    
-    @Resource
-    private IResourceService resourceService;
     
     @RequestMapping({"", "/", "/index"})
     public ModelAndView index(HttpServletRequest request, ModelAndView mv, Role role, Pagination pagination)

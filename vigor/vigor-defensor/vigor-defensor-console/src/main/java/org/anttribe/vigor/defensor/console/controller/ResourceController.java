@@ -25,6 +25,7 @@ import org.anttribe.vigor.infra.common.exception.ServiceException;
 import org.anttribe.vigor.infra.common.exception.UnifyException;
 import org.anttribe.vigor.infra.common.type.YesOrNo;
 import org.anttribe.vigor.infra.common.web.controller.AbstractController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -39,7 +40,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ResourceController extends AbstractController
 {
     
-    @javax.annotation.Resource
+    @Autowired
     private IResourceService resourceService;
     
     @RequestMapping(value = {"", "/", "/index"})

@@ -21,9 +21,8 @@ import org.anttribe.vigor.infra.common.service.AbstractServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.alibaba.dubbo.config.annotation.Service;
 
 /**
  * @author zhaoyong

@@ -20,8 +20,7 @@ import org.anttribe.vigor.defensor.service.IResourceService;
 import org.anttribe.vigor.infra.common.service.AbstractServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.alibaba.dubbo.config.annotation.Service;
+import org.springframework.stereotype.Service;
 
 /**
  * @author zhaoyong
