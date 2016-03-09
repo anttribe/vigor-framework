@@ -87,9 +87,6 @@
 			<if test="null != username and username != ''">
 				username = #{username},
 			</if>
-			<if test="null != updateTime and updateTime != ''">
-				update_time = #{updateTime},
-			</if>
 		</set>
 		<![CDATA[
             WHERE id = #{id}
