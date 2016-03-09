@@ -21,6 +21,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author zhaoyong
@@ -89,6 +90,7 @@ public abstract class AbstractServiceImpl<Dao extends IDao<T>, T extends Entity>
     }
     
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void persistentEntity(T entity)
     {
         logger.debug("persistenting Entity to DB, param: entity[{}]", entity);
@@ -123,6 +125,7 @@ public abstract class AbstractServiceImpl<Dao extends IDao<T>, T extends Entity>
     }
     
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void removeEntity(Map<String, Object> criteria)
     {
         logger.debug("deleting entity from DB, param: criteria[{}]", criteria);
