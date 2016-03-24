@@ -4,7 +4,7 @@
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
-<c:if test="${pagination != null and pagination.totalPages > 0 }">
+<c:if test="${pagination != null and pagination.totalPages > 1 }">
     <div id="pagination">
     </div>
     
@@ -48,7 +48,7 @@
          	    			var requestUrl = location.href;
          	    			if(requestUrl){
          	    				var params = {};
-         	    				var parameterString = requestUrl.substring(requestUrl.lastIndexOf('?') + 1);
+         	    				var parameterString = requestUrl.lastIndexOf('?') > 0 ? requestUrl.substring(requestUrl.lastIndexOf('?') + 1) : null;
          	    				if(parameterString){
          	    					var parameters = parameterString.split('&');
          	    					if(parameters && parameters.length>0){

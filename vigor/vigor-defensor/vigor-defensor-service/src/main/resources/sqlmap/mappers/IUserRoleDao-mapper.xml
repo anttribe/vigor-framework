@@ -4,7 +4,8 @@
 	<cache readOnly="true" />
 	<resultMap id="UserRole-resultMap" type="org.anttribe.vigor.defensor.domain.UserRole">
 		<id property="id" column="id" />
-		<association property="role" javaType="org.anttribe.vigor.defensor.domain.Role">
+		<association property="role"
+			javaType="org.anttribe.vigor.defensor.domain.Role">
 			<id property="id" column="role_id" />
 			<result property="name" column="role_name" />
 		</association>
@@ -57,7 +58,7 @@
 	<!-- limit -->
 	<sql id="limit">
 		<if test="null != pagination">
-			limit #{pagination.offset}, #{pagination.pageSize}
+			limit #{pagination.offset}, #{pagination.pagesize}
 		</if>
 	</sql>
 

@@ -8,8 +8,8 @@
 <!DOCTYPE html>
 <html lang="en_US">
     <head>
-        <title><spring:message code="app.role.title" /></title>
-        <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/jquery.validate.css" />
+        <title><spring:message code="app.user.title" /></title>
+        <link rel="stylesheet" type="text/css" href="${contextPath}/static/css/jquery.validation.css" />
     </head>
     <body>
         <div class="clearfix"></div>
@@ -33,13 +33,13 @@
                                 <div class="form-group">
                                     <label for="password" class="col-lg-2 col-sm-2 control-label"><spring:message code="app.user.title.password" /></label>
                                     <div class="col-lg-8 col-sm-8">
-                                        <input type="password" id="password" name="password" value="" class="form-control required" maxLength="30" placeholder="<spring:message code="app.user.placeholder.password" />">
+                                        <input type="password" id="password" name="password" value="" class="form-control <c:if test="${PARAM.id == null or PARAM.id == ''}">required</c:if>" maxLength="30" placeholder="<spring:message code="app.user.placeholder.password" />">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="confirmPassword" class="col-lg-2 col-sm-2 control-label"><spring:message code="app.user.title.confirmPassword" /></label>
                                     <div class="col-lg-8 col-sm-8">
-                                        <input type="password" id="confirmPassword" value="" class="form-control required" maxLength="30" placeholder="<spring:message code="app.user.placeholder.confirmPassword" />">
+                                        <input type="password" id="confirmPassword" value="" class="form-control <c:if test="${PARAM.id == null or PARAM.id == ''}">required</c:if>" maxLength="30" placeholder="<spring:message code="app.user.placeholder.confirmPassword" />">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -99,7 +99,7 @@
 	        						for(var i=0; i<roles.length; i++){
 	        							var role = roles[i];
 	        							if(role && role['id'] && role['name']){
-	        								$html += '<label><input type="checkbox" name="role" value="' + role['id'] + '" ' + (selectedRoles && selectedRoles.indexOf('-' + role['id'] + '-') != -1 ? 'checked' : '') + '>' + (role['name'] || '') + '</label>';
+	        								$html += '<div><label><input type="checkbox" name="role" value="' + role['id'] + '" ' + (selectedRoles && selectedRoles.indexOf('-' + role['id'] + '-') != -1 ? 'checked' : '') + '>' + (role['name'] || '') + '</label></div>';
 	        							}
 	        						}
 	        						$('#roles').append($html);

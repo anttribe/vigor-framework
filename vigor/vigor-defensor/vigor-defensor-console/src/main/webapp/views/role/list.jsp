@@ -32,7 +32,7 @@
                                             <th><spring:message code="app.common.title.serial" /></th>
                                             <th><spring:message code="app.role.title.name" /></th>
                                             <th><spring:message code="app.role.title.creator" /></th>
-                                            <th><spring:message code="app.common.action.operate" /></th>
+                                            <th width="30%"><spring:message code="app.common.action.operate" /></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -40,7 +40,7 @@
                                             <tr data-id="${role.id}">
                                                 <td><c:out value="${s.index + 1}" /></td>
                                                 <td><c:out value="${role.name}" /></td>
-                                                <td><c:out value="" /></td>
+                                                <td><c:out value="${role.creator.username}" /></td>
                                                 <td>
                                                     <a href="${contextPath}/role/edit?id=${role.id}" class="btn btn-success btn-sm"><i class="fa fa-edit"></i> <spring:message code="app.common.action.edit" /></a>
                                                     <a href="#none" class="btn btn-danger btn-sm btn-delete"><i class="fa fa-trash-o"></i> <spring:message code="app.common.action.delete" /></a>

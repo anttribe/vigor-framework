@@ -58,6 +58,7 @@ public abstract class AbstractServiceImpl<Dao extends IDao<T>, T extends Entity>
         {
             criteria = new HashMap<String, Object>();
         }
+        criteria.put("pagination", pagination);
         List<T> tempEntities = dao.find(criteria);
         int totalCount = dao.count(criteria);
         if (null == pagination)

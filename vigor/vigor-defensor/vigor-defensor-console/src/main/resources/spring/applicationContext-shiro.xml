@@ -44,13 +44,42 @@
 				<ref bean="defensorAuthorizingRealm" />
 			</list>
 		</property>
+		<property name="sessionManager" ref="sessionManager" />
 	</bean>
 
 	<bean id="defensorAuthorizingRealm"
 		class="org.anttribe.vigor.defensor.auth.realm.DefensorAuthorizingRealm">
 		<property name="passwordService" ref="passwordService" />
 	</bean>
-	
+
+	<!-- session管理 -->
+	<bean id="sessionManager"
+		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="${session.timeout}" />
+		<property name="sessionDAO" ref="sessionDAO" />
+
+		<!-- 定时清理失效会话, 清理用户直接关闭浏览器造成的孤立会话, 默认任务ExecutorServiceSessionValidationScheduler -->
+		<property name="sessionValidationSchedulerEnabled" value="true" />
+		<property name="sessionValidationInterval" value="${session.validation.interval}" />
+
+		<property name="sessionIdCookie" ref="sessionIdCookie" />
+		<property name="sessionIdCookieEnabled" value="true" />
+	</bean>
+
+	<!-- 指定系统SESSIONID, 默认为: JSESSIONID 问题: 与SERVLET容器名冲突, 如JETTY, TOMCAT 等默认JSESSIONID, 
+		当跳出SHIRO SERVLET时如ERROR-PAGE容器会为JSESSIONID重新分配值导致登录会话丢失 -->
+	<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<constructor-arg name="name" value="vigor.session.id" />
+	</bean>
+
+	<!-- 会话DAO -->
+	<bean id="sessionDAO"
+		class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+		<property name="sessionIdGenerator" ref="sessionIdGenerator" />
+	</bean>
+	<bean id="sessionIdGenerator"
+		class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator" />
+
 	<!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->
 	<bean
 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">

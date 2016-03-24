@@ -58,7 +58,7 @@
 	<!-- limit -->
 	<sql id="limit">
 		<if test="null != pagination">
-			limit #{pagination.offset}, #{pagination.pageSize}
+			limit #{pagination.offset}, #{pagination.pagesize}
 		</if>
 	</sql>
 

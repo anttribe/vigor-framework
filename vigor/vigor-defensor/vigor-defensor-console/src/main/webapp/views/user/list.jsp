@@ -43,10 +43,12 @@
                                                 <td><c:out value="${s.index + 1}" /></td>
                                                 <td><c:out value="${user.username}" /></td>
                                                 <td>
+                                                    <c:set var="userRoles" value="" />
                                                     <c:forEach items="${user.roles}" var="userRole" varStatus="s">
-                                                        <c:if test="${x.index > 0}">,</c:if>
-                                                        <c:out value="${userRole.role.name}"></c:out>
+                                                        <c:if test="${s.index > 0}"><c:set var="userRoles" value="${userRoles}, " /></c:if>
+                                                        <c:set var="userRoles" value="${userRoles}${userRole.role.name}" />
                                                     </c:forEach>
+                                                    <span title="${userRoles}"><c:out value="${userRoles}" /></span>
                                                 </td>
                                                 <td><fmt:formatDate value="${user.createTime}" pattern="yyyy-MM-dd HH:mm:ss" /></td>
                                                 <td>

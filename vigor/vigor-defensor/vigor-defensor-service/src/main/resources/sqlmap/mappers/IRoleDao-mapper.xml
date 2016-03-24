@@ -12,6 +12,7 @@
 		<association property="creator"
 			javaType="org.anttribe.vigor.defensor.domain.User">
 			<id property="id" column="creator" />
+			<result property="username" column="creator_name" />
 		</association>
 		<association property="identify"
 			javaType="org.anttribe.vigor.infra.dict.domain.Dict">
@@ -28,6 +29,7 @@
 		<association property="creator"
 			javaType="org.anttribe.vigor.defensor.domain.User">
 			<id property="id" column="creator" />
+			<result property="username" column="creator_name" />
 		</association>
 		<association property="identify"
 			javaType="org.anttribe.vigor.infra.dict.domain.Dict">
@@ -41,8 +43,9 @@
 	<!-- select -->
 	<sql id="select">
         <![CDATA[
-            SELECT t.id, t.name, t.creator, t.identify, t.create_time, t.update_time, t.remarks
+            SELECT t.id, t.name, t.creator, t.identify, t.create_time, t.update_time, t.remarks, t1.username AS creator_name
               FROM vigor_defensor_t_role_info t
+              LEFT JOIN vigor_defensor_t_user_info t1 ON t1.id = t.creator
         ]]>
 	</sql>
 
@@ -90,7 +93,7 @@
 	<!-- limit -->
 	<sql id="limit">
 		<if test="null != pagination">
-			limit #{pagination.offset}, #{pagination.pageSize}
+			limit #{pagination.offset}, #{pagination.pagesize}
 		</if>
 	</sql>
 

@@ -14,6 +14,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.anttribe.vigor.defensor.domain.Role;
+import org.anttribe.vigor.defensor.domain.User;
 import org.anttribe.vigor.defensor.service.IRoleService;
 import org.anttribe.vigor.infra.common.constants.Constants;
 import org.anttribe.vigor.infra.common.constants.Keys;
@@ -23,6 +24,8 @@ import org.anttribe.vigor.infra.common.exception.ServiceException;
 import org.anttribe.vigor.infra.common.exception.UnifyException;
 import org.anttribe.vigor.infra.common.web.controller.AbstractController;
 import org.anttribe.vigor.infra.persist.entity.Pagination;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -109,9 +112,16 @@ public class RoleController extends AbstractController
         Result<?> result = new Result<String>();
         try
         {
-            // TODO： 数据校验
-            roleService.persistentEntity(role);
-            result.setResultCode(Constants.Common.DEFAULT_RESULT_CODE);
+            // 构造角色创建者
+            Subject subject = SecurityUtils.getSubject();
+            User user = (User)subject.getSession()
+                .getAttribute(org.anttribe.vigor.defensor.auth.constants.Keys.KEY_USER_SESSION);
+            if (null != user)
+            {
+                role.setCreator(user);
+                roleService.persistentEntity(role);
+                result.setResultCode(Constants.Common.DEFAULT_RESULT_CODE);
+            }
         }
         catch (ServiceException e)
         {
