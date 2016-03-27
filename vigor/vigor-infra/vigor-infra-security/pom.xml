@@ -6,10 +6,11 @@
 	<parent>
 		<groupId>org.anttribe.vigor.vigor-infra</groupId>
 		<artifactId>vigor-infra</artifactId>
-		<version>${project.version}</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>vigor-infra-security</artifactId>
 	<name>vigor-infra-security</name>
+	<packaging>jar</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

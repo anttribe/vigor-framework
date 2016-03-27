@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.anttribe.vigor</groupId>
 		<artifactId>vigor</artifactId>
-		<version>${project.version}</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>org.anttribe.vigor.vigor-defensor</groupId>
 	<artifactId>vigor-defensor</artifactId>
@@ -20,7 +20,6 @@
 	<modules>
 		<module>vigor-defensor-service</module>
 		<module>vigor-defensor-auth</module>
-		<module>vigor-defensor-console</module>
 	</modules>
 
 	<dependencies>

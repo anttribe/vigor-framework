@@ -6,10 +6,11 @@
 	<parent>
 		<groupId>org.anttribe.vigor.vigor-defensor</groupId>
 		<artifactId>vigor-defensor</artifactId>
-		<version>${project.version}</version>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>vigor-defensor-service</artifactId>
 	<name>vigor-defensor-service</name>
+	<packaging>jar</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
