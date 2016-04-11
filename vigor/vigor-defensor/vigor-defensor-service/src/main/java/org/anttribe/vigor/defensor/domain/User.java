@@ -41,9 +41,9 @@ public class User extends Entity
     private List<UserRole> roles;
     
     /**
-     * 角色标记
+     * 用户身份(临时)
      */
-    private String identify;
+    private String identity;
     
     public String getUsername()
     {
@@ -75,14 +75,14 @@ public class User extends Entity
         this.roles = roles;
     }
     
-    public String getIdentify()
+    public String getIdentity()
     {
-        return identify;
+        return identity;
     }
     
-    public void setIdentify(String identify)
+    public void setIdentity(String identity)
     {
-        this.identify = identify;
+        this.identity = identity;
     }
     
 }

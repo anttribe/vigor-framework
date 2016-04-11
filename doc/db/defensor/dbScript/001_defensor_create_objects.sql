@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/2/26 22:19:24                           */
+/* Created on:     2016/4/8 15:59:05                            */
 /*==============================================================*/
 
 
@@ -43,7 +43,8 @@ create table vigor_defensor_t_role_info
 (
    id                   bigint not null auto_increment comment 'id编号',
    name                 varchar(128) not null comment '角色名',
-   identify             varchar(32) comment '角色标记',
+   code                 varchar(32) comment '角色编码',
+   identity             varchar(32) comment '角色对应身份',
    creator              varchar(16) comment '创建人',
    create_time          datetime comment '创建时间',
    update_time          datetime comment '更新时间',
@@ -60,7 +61,7 @@ create table vigor_defensor_t_role_resource_rec
 (
    id                   bigint not null auto_increment comment 'id编号',
    role_id              bigint not null comment '角色',
-   resource_id          bigint not null comment '资源',
+   resource_id          bigint comment '资源',
    primary key (id)
 );
 
@@ -87,19 +88,13 @@ create table vigor_defensor_t_user_role_rec
 (
    id                   bigint not null auto_increment comment 'id编号',
    user_id              bigint not null comment '用户',
-   role_id              bigint not null comment '角色',
+   role_id              bigint comment '角色',
    primary key (id)
 );
 
 alter table vigor_defensor_t_user_role_rec comment '用户角色关系记录表';
 
-alter table vigor_defensor_t_role_resource_rec add constraint FK_Reference_10 foreign key (resource_id)
-      references vigor_defensor_t_resource_info (id) on delete restrict on update restrict;
-
 alter table vigor_defensor_t_role_resource_rec add constraint FK_Reference_3 foreign key (role_id)
-      references vigor_defensor_t_role_info (id) on delete restrict on update restrict;
-
-alter table vigor_defensor_t_user_role_rec add constraint FK_Reference_4 foreign key (role_id)
       references vigor_defensor_t_role_info (id) on delete restrict on update restrict;
 
 alter table vigor_defensor_t_user_role_rec add constraint FK_Reference_5 foreign key (user_id)

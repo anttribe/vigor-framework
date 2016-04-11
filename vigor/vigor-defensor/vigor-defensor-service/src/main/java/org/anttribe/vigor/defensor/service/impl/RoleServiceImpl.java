@@ -16,6 +16,7 @@ import org.anttribe.vigor.defensor.dao.IRoleDao;
 import org.anttribe.vigor.defensor.dao.IRoleResourceDao;
 import org.anttribe.vigor.defensor.domain.Role;
 import org.anttribe.vigor.defensor.domain.RoleResource;
+import org.anttribe.vigor.defensor.domain.User;
 import org.anttribe.vigor.defensor.service.IRoleService;
 import org.anttribe.vigor.infra.common.service.AbstractServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
@@ -34,6 +35,22 @@ public class RoleServiceImpl extends AbstractServiceImpl<IRoleDao, Role> impleme
     
     @Autowired
     private IRoleResourceDao roleResourceDao;
+    
+    @Override
+    public List<Role> listUserRoles(User user, String identity)
+    {
+        logger.debug("list roles refer to user and identity, param: user[{}], identity[{}]", user, identity);
+        
+        if (null == user)
+        {
+            // 参数错误
+            return null;
+        }
+        Map<String, Object> criteria = new HashMap<String, Object>();
+        criteria.put("user", user);
+        criteria.put("identity", identity);
+        return this.listEntities(criteria);
+    }
     
     @Override
     public Role findEntity(Map<String, Object> criteria)
@@ -110,4 +127,5 @@ public class RoleServiceImpl extends AbstractServiceImpl<IRoleDao, Role> impleme
             }
         }
     }
+    
 }

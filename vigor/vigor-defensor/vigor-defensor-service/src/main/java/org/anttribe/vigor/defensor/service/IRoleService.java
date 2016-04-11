@@ -7,7 +7,10 @@
  */
 package org.anttribe.vigor.defensor.service;
 
+import java.util.List;
+
 import org.anttribe.vigor.defensor.domain.Role;
+import org.anttribe.vigor.defensor.domain.User;
 import org.anttribe.vigor.infra.common.service.IService;
 
 /**
@@ -16,4 +19,12 @@ import org.anttribe.vigor.infra.common.service.IService;
  */
 public interface IRoleService extends IService<Role>
 {
+    /**
+     * 列表用户角色
+     * 
+     * @param user
+     * @param identity
+     * @return List<Role>
+     */
+    List<Role> listUserRoles(User user, String identity);
 }

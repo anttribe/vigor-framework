@@ -26,8 +26,8 @@ public class FormAuthenticationFilter extends org.apache.shiro.web.filter.authc.
     {
         boolean rememberMe = isRememberMe(request);
         String host = getHost(request);
-        String identify = request.getParameter("identify");
-        AuthenticationToken token = new UsernamePasswordToken(username, password, rememberMe, host, identify);
+        String identity = request.getParameter("identity");
+        AuthenticationToken token = new UsernamePasswordToken(username, password, rememberMe, host, identity);
         return token;
     }
     

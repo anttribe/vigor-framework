@@ -33,7 +33,7 @@ public class DefaultPasswordServiceTest
             passwordService.setAlgorithmName("SHA1");
             passwordService.setIterations(256);
             passwordService.setGeneratePublicSalt(true);
-            passwordService.setPublicSaltLength(4);
+            passwordService.setPublicSaltLength(8);
         }
         catch (AlgorithmNotSupportException e)
         {

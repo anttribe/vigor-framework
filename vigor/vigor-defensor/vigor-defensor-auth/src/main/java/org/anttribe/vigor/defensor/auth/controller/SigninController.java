@@ -10,6 +10,7 @@ package org.anttribe.vigor.defensor.auth.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.anttribe.vigor.defensor.domain.User;
 import org.anttribe.vigor.infra.common.web.controller.AbstractController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,10 +25,16 @@ public class SigninController extends AbstractController
 {
     
     @RequestMapping("/signin")
-    public ModelAndView login(HttpServletRequest request, HttpServletResponse response, ModelAndView mv)
+    public ModelAndView signin(HttpServletRequest request, HttpServletResponse response, ModelAndView mv)
     {
         mv.setViewName(Views.SIGNIN_VIEW);
         return mv;
+    }
+    
+    @RequestMapping("/signin/exec")
+    public void doSignin(HttpServletRequest request, HttpServletResponse response, User user)
+    {
+        System.out.println(user);
     }
     
     class Views

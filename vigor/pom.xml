@@ -32,6 +32,7 @@
 	<modules>
 		<module>vigor-infra</module>
 		<module>vigor-defensor</module>
+		<module>vigor-web</module>
 	</modules>
 
 	<build>

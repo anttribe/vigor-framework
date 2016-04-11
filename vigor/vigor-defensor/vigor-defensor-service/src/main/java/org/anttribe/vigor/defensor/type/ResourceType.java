@@ -23,6 +23,12 @@ public enum ResourceType
     MENU
     {
         @Override
+        public boolean isMenuResource(Resource resource)
+        {
+            return true;
+        }
+        
+        @Override
         public String assemblePermission(Resource resource)
         {
             String resourceUrl = resource.getResourceUrl();
@@ -34,6 +40,12 @@ public enum ResourceType
     PAGE
     {
         @Override
+        public boolean isMenuResource(Resource resource)
+        {
+            return true;
+        }
+        
+        @Override
         public String assemblePermission(Resource resource)
         {
             return this.name() + resource.getId();
@@ -43,12 +55,32 @@ public enum ResourceType
     OPERATOR
     {
         @Override
+        public boolean isMenuResource(Resource resource)
+        {
+            return false;
+        }
+        
+        @Override
         public String assemblePermission(Resource resource)
         {
             return resource.getPrivilege();
         }
     };
     
+    /**
+     * 判断是否可作为菜单
+     * 
+     * @param resource
+     * @return boolean
+     */
+    public abstract boolean isMenuResource(Resource resource);
+    
+    /**
+     * 组装权限字符串
+     * 
+     * @param resource
+     * @return String
+     */
     public abstract String assemblePermission(Resource resource);
     
 }

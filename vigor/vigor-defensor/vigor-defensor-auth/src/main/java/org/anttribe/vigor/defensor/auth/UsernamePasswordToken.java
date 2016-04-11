@@ -20,9 +20,9 @@ public class UsernamePasswordToken extends org.apache.shiro.authc.UsernamePasswo
     private static final long serialVersionUID = -1772566755022977297L;
     
     /**
-     * 角色标记(身份)
+     * 用户身份
      */
-    private String identify;
+    private String identity;
     
     public UsernamePasswordToken()
     {
@@ -51,20 +51,15 @@ public class UsernamePasswordToken extends org.apache.shiro.authc.UsernamePasswo
     }
     
     public UsernamePasswordToken(final String username, final String password, final boolean rememberMe,
-        final String host, String identify)
+        final String host, String identity)
     {
         super(username, password != null ? password.toCharArray() : null, rememberMe, host);
-        this.identify = identify;
+        this.identity = identity;
     }
     
-    public String getIdentify()
+    public String getIdentity()
     {
-        return identify;
-    }
-    
-    public void setIdentify(String identify)
-    {
-        this.identify = identify;
+        return identity;
     }
     
 }

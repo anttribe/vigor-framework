@@ -7,6 +7,8 @@
  */
 package org.anttribe.vigor.infra.dict.domain;
 
+import java.util.List;
+
 import org.anttribe.vigor.infra.persist.entity.Entity;
 
 /**
@@ -32,9 +34,9 @@ public class Dict extends Entity
     private String name;
     
     /**
-     * 字典值
+     * 字典项
      */
-    private String value;
+    private List<DictItem> items;
     
     public String getKey()
     {
@@ -56,14 +58,14 @@ public class Dict extends Entity
         this.name = name;
     }
     
-    public String getValue()
+    public List<DictItem> getItems()
     {
-        return value;
+        return items;
     }
     
-    public void setValue(String value)
+    public void setItems(List<DictItem> items)
     {
-        this.value = value;
+        this.items = items;
     }
     
 }

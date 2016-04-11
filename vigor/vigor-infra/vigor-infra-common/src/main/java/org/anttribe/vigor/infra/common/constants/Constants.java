@@ -26,6 +26,11 @@ public class Constants
          * 默认的操作结果: 成功
          */
         public static final String DEFAULT_RESULT_CODE = "000000";
+        
+        /**
+         * 默认的角色身份字典key
+         */
+        public static final String DEFAULT_ROLE_IDENTITY_DICT_KEY = "ROLE_IDENTITY";
     }
     
 }

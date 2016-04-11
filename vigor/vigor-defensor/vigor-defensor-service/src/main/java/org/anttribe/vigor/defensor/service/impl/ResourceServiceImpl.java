@@ -12,14 +12,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.anttribe.vigor.defensor.dao.IResourceDao;
-import org.anttribe.vigor.defensor.dao.IRoleDao;
 import org.anttribe.vigor.defensor.domain.Resource;
 import org.anttribe.vigor.defensor.domain.Role;
-import org.anttribe.vigor.defensor.domain.User;
 import org.anttribe.vigor.defensor.service.IResourceService;
 import org.anttribe.vigor.infra.common.service.AbstractServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -30,27 +27,17 @@ import org.springframework.stereotype.Service;
 public class ResourceServiceImpl extends AbstractServiceImpl<IResourceDao, Resource> implements IResourceService
 {
     
-    @Autowired
-    private IRoleDao roleDao;
-    
     @Override
-    public List<Resource> listUserResources(User user, String identify)
+    public List<Resource> listResources(List<Role> roles)
     {
-        logger.debug("listing user's resources from DB, param: user[{}], identify[{}]", user, identify);
+        logger.debug("listing resources from DB, param: roles[{}]", roles);
         
-        if (null != user && null != user.getId())
+        if (!CollectionUtils.isEmpty(roles))
         {
+            // 根据角色查询对应的资源
             Map<String, Object> criteria = new HashMap<String, Object>();
-            criteria.put("user", user);
-            criteria.put("identify", identify);
-            List<Role> roles = roleDao.find(criteria);
-            if (!CollectionUtils.isEmpty(roles))
-            {
-                // 根据角色查询对应的资源
-                criteria = new HashMap<String, Object>();
-                criteria.put("roles", roles);
-                return dao.find(criteria);
-            }
+            criteria.put("roles", roles);
+            return dao.find(criteria);
         }
         return null;
     }

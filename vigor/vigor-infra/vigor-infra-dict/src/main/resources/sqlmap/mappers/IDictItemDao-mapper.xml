@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.anttribe.vigor.infra.dict.dao.IDictItemDao">
+	<resultMap id="DictItem-resultMap" type="org.anttribe.vigor.infra.dict.domain.DictItem">
+		<id property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="value" column="value" />
+	</resultMap>
+
+	<!-- select -->
+	<sql id="select">
+        <![CDATA[
+            SELECT t.id, t.name, t.value, t.dict_id
+              FROM vigor_system_t_dict_item_rec t
+        ]]>
+	</sql>
+
+	<!-- where -->
+	<sql id="where">
+		<where>
+			<if test="null != id and id != ''">
+				AND t.id = #{id}
+			</if>
+			<if test="null != name and '' != name">
+				AND t.name LIKE CONCAT('%', #{name}, '%')
+			</if>
+			<if test="null != dict and null != dict.id and '' != dict.id">
+				AND t.dict_id = #{dict.id}
+			</if>
+		</where>
+	</sql>
+
+	<!-- where-no-alias -->
+	<sql id="where-no-alias">
+		<where>
+			<if test="null != id and id != ''">
+				AND id = #{id}
+			</if>
+			<if test="null != name and '' != name">
+				AND name LIKE CONCAT('%', #{name}, '%')
+			</if>
+			<if test="null != dict and null != dict.id and '' != dict.id">
+				AND dict_id = #{dict.id}
+			</if>
+		</where>
+	</sql>
+
+	<!-- order-by -->
+	<sql id="order-by">
+	    <![CDATA[ ]]>
+	</sql>
+
+	<!-- limit -->
+	<sql id="limit">
+		<if test="null != pagination">
+			LIMIT #{pagination.offset}, #{pagination.pagesize}
+		</if>
+	</sql>
+
+	<!-- insert: 插入单条数据 -->
+	<insert id="insert" parameterType="org.anttribe.vigor.infra.dict.domain.DictItem">
+		<selectKey keyProperty="id" resultType="Long" order="AFTER">
+		    <![CDATA[ SELECT LAST_INSERT_ID() ]]>
+		</selectKey>
+		<![CDATA[
+		    INSERT INTO vigor_system_t_dict_item_rec(name, value, dict_id)
+		        VALUES(#{name}, #{value}, #{dict.id})
+		]]>
+	</insert>
+
+	<!-- batchInsert: 批量插入数据 -->
+	<insert id="batchInsert" parameterType="java.util.List">
+		<![CDATA[
+		    INSERT INTO vigor_system_t_dict_item_rec(name, value, dict_id)
+		        VALUES
+		]]>
+		<foreach collection="list" item="item" separator=", ">
+			<![CDATA[ (#{items.name}, #{item.value}, #{items.dict.id}) ]]>
+		</foreach>
+	</insert>
+
+	<!-- update: 更新数据 -->
+	<update id="update" parameterType="org.anttribe.vigor.infra.dict.domain.DictItem">
+        <![CDATA[
+            UPDATE vigor_system_t_dict_item_rec
+        ]]>
+		<set>
+			<if test="null != name and name != ''">
+				name = #{name},
+			</if>
+			<if test="null != value and '' != value">
+				value = #{value},
+			</if>
+		</set>
+		<![CDATA[
+            WHERE id = #{id}
+        ]]>
+	</update>
+
+	<!-- batchUpdate: 批量更新数据 -->
+	<update id="batchUpdate" parameterType="java.util.List">
+		<![CDATA[
+            UPDATE vigor_system_t_dict_item_rec
+        ]]>
+		<trim prefix="set" suffixOverrides=",">
+			<trim prefix="name = case id" suffix="end,">
+				<foreach collection="list" item="item">
+					<if test="null != items.name and items.name != ''">
+						when #{item.id} then #{items.name}
+					</if>
+				</foreach>
+			</trim>
+		</trim>
+		<![CDATA[
+            WHERE id IN 
+        ]]>
+		<foreach collection="list" separator=", " item="item" open="("
+			close=")">
+			#{item.id}
+		</foreach>
+	</update>
+
+	<!-- delete: 删除数据 -->
+	<delete id="delete" parameterType="Map">
+	    <![CDATA[
+            DELETE FROM vigor_system_t_dict_item_rec
+        ]]>
+		<include refid="where-no-alias"></include>
+	</delete>
+
+	<!-- findAll: 查询所有数据 -->
+	<select id="findAll" resultMap="DictItem-resultMap">
+		<include refid="select"></include>
+		<include refid="order-by"></include>
+	</select>
+
+	<!-- find: 根据条件查询数据 -->
+	<select id="find" resultMap="DictItem-resultMap" parameterType="Map">
+		<include refid="select"></include>
+		<include refid="where"></include>
+		<include refid="order-by"></include>
+		<include refid="limit"></include>
+	</select>
+
+	<!-- findById: 根据条件查询单条数据 -->
+	<select id="findById" resultMap="DictItem-resultMap"
+		parameterType="Map">
+		<include refid="select"></include>
+		<![CDATA[
+		    WHERE t.id = #{id}
+		]]>
+	</select>
+
+	<!-- count: 根据条件查询数据条数 -->
+	<select id="count" resultType="int">
+		<![CDATA[
+            SELECT COUNT(1)
+              FROM vigor_system_t_dict_item_rec t
+        ]]>
+		<include refid="where"></include>
+	</select>
+</mapper>

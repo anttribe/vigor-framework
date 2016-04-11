@@ -15,6 +15,8 @@ public class Keys
 {
     public static final String KEY_USER_SESSION = "USERINFO";
     
+    public static final String KEY_USER_ROLES = "USER_ROLES";
+    
     public static final String KEY_USER_RESOURCES = "USER_RESOURCES";
     
     public static final String KEY_MENUS = "MENUS";

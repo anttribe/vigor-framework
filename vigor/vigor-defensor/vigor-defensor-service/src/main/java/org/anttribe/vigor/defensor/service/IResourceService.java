@@ -10,7 +10,7 @@ package org.anttribe.vigor.defensor.service;
 import java.util.List;
 
 import org.anttribe.vigor.defensor.domain.Resource;
-import org.anttribe.vigor.defensor.domain.User;
+import org.anttribe.vigor.defensor.domain.Role;
 import org.anttribe.vigor.infra.common.service.IService;
 
 /**
@@ -22,14 +22,11 @@ import org.anttribe.vigor.infra.common.service.IService;
 public interface IResourceService extends IService<Resource>
 {
     /**
-     * 根据用户和用户身份获取用户对应的权限
+     * 根据角色获取对应的权限
      * 
-     * @param user
-     *            User
-     * @param identify
-     *            String
+     * @param roles List<Role>
      * @return List<Resource>
      */
-    List<Resource> listUserResources(User user, String identify);
+    List<Resource> listResources(List<Role> roles);
     
 }

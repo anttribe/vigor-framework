@@ -5,35 +5,40 @@
 	<resultMap id="Role-resultMap" type="org.anttribe.vigor.defensor.domain.Role">
 		<id property="id" column="id" />
 		<result property="name" column="name" />
-		<result property="name" column="name" />
+		<result property="code" column="code" />
 		<result property="createTime" column="create_time" />
 		<result property="updateTime" column="update_time" />
 		<result property="remarks" column="remarks" />
+		<association property="identity"
+			javaType="org.anttribe.vigor.infra.dict.domain.DictItem">
+			<id property="id" column="identity" />
+			<result property="name" column="identity_name" />
+			<result property="value" column="identity_value" />
+		</association>
 		<association property="creator"
 			javaType="org.anttribe.vigor.defensor.domain.User">
 			<id property="id" column="creator" />
 			<result property="username" column="creator_name" />
-		</association>
-		<association property="identify"
-			javaType="org.anttribe.vigor.infra.dict.domain.Dict">
-			<id property="id" column="identify" />
 		</association>
 	</resultMap>
 
 	<resultMap id="Role-detail-resultMap" type="org.anttribe.vigor.defensor.domain.Role">
 		<id property="id" column="id" />
 		<result property="name" column="name" />
+		<result property="code" column="code" />
 		<result property="createTime" column="create_time" />
 		<result property="updateTime" column="update_time" />
 		<result property="remarks" column="remarks" />
+		<association property="identity"
+			javaType="org.anttribe.vigor.infra.dict.domain.DictItem">
+			<id property="id" column="identity" />
+			<result property="name" column="identity_name" />
+			<result property="value" column="identity_value" />
+		</association>
 		<association property="creator"
 			javaType="org.anttribe.vigor.defensor.domain.User">
 			<id property="id" column="creator" />
 			<result property="username" column="creator_name" />
-		</association>
-		<association property="identify"
-			javaType="org.anttribe.vigor.infra.dict.domain.Dict">
-			<id property="id" column="identify" />
 		</association>
 		<collection property="resources" javaType="java.util.ArrayList"
 			ofType="org.anttribe.vigor.defensor.domain.RoleResource" column="{role.id = id}"
@@ -43,9 +48,10 @@
 	<!-- select -->
 	<sql id="select">
         <![CDATA[
-            SELECT t.id, t.name, t.creator, t.identify, t.create_time, t.update_time, t.remarks, t1.username AS creator_name
+            SELECT t.id, t.name, t.code, t.creator, t.identity, t.create_time, t.update_time, t.remarks, t1.username AS creator_name, t2.name AS identity_name, t2.value AS identity_value
               FROM vigor_defensor_t_role_info t
               LEFT JOIN vigor_defensor_t_user_info t1 ON t1.id = t.creator
+              LEFT JOIN vigor_system_t_dict_item_rec t2 ON t2.id = t.identity
         ]]>
 	</sql>
 
@@ -58,11 +64,14 @@
 			<if test="null != name and '' != name">
 				AND t.name LIKE CONCAT('%', #{name}, '%')
 			</if>
+			<if test="null != code and '' != code">
+				AND t.code = #{code}
+			</if>
+			<if test="null != identity and '' != identity">
+				<![CDATA[ AND t.identity = (select id from vigor_system_t_dict_item_rec where value = #{identity}) ]]>
+			</if>
 			<if test="null != creator and null != creator.id and '' != creator.id">
 				AND t.creator = #{creator.id}
-			</if>
-			<if test="null != identify and null != identify.id and '' != identify.id">
-				AND t.identify = #{identify.id}
 			</if>
 		</where>
 	</sql>
@@ -76,11 +85,14 @@
 			<if test="null != name and '' != name">
 				AND name LIKE CONCAT('%', #{name}, '%')
 			</if>
+			<if test="null != code and '' != code">
+				AND code = #{code}
+			</if>
+			<if test="null != identity and '' != identity">
+				<![CDATA[ AND identity = (select id from vigor_system_t_dict_item_rec where value = #{identity}) ]]>
+			</if>
 			<if test="null != creator and null != creator.id and '' != creator.id">
 				AND creator = #{creator.id}
-			</if>
-			<if test="null != identify and null != identify.id and '' != identify.id">
-				AND identify = #{identify.id}
 			</if>
 		</where>
 	</sql>
@@ -93,7 +105,7 @@
 	<!-- limit -->
 	<sql id="limit">
 		<if test="null != pagination">
-			limit #{pagination.offset}, #{pagination.pagesize}
+			LIMIT #{pagination.offset}, #{pagination.pagesize}
 		</if>
 	</sql>
 
@@ -103,19 +115,19 @@
 		    <![CDATA[ SELECT LAST_INSERT_ID() ]]>
 		</selectKey>
 		<![CDATA[
-		    INSERT INTO vigor_defensor_t_role_info(name, creator, identify, create_time, update_time, remarks)
-		        VALUES(#{name}, #{creator.id}, #{identify.id}, #{createTime}, #{updateTime}, #{remarks})
+		    INSERT INTO vigor_defensor_t_role_info(name, code, creator, create_time, update_time, remarks, identity)
+		        VALUES(#{name}, #{code}, #{creator.id}, #{createTime}, #{updateTime}, #{remarks}, #{identity.id})
 		]]>
 	</insert>
 
 	<!-- batchInsert: 批量插入数据 -->
 	<insert id="batchInsert" parameterType="java.util.List">
 		<![CDATA[
-		    INSERT INTO vigor_defensor_t_role_info(name, creator, identify, create_time, update_time, remarks)
+		    INSERT INTO vigor_defensor_t_role_info(name, code, creator, identity, create_time, update_time, remarks)
 		        VALUES
 		]]>
 		<foreach collection="list" item="item" separator=", ">
-			<![CDATA[ (#{items.name}, #{items.creator.id}, #{items.identify.id}, #{items.createTime}, #{items.updateTime}. #{items.remarks}) ]]>
+			<![CDATA[ (#{items.name}, #{item.code}, #{items.creator.id}, #{items.identity.id}, #{items.createTime}, #{items.updateTime}. #{items.remarks}) ]]>
 		</foreach>
 	</insert>
 
@@ -128,8 +140,11 @@
 			<if test="null != name and name != ''">
 				name = #{name},
 			</if>
-			<if test="null != identify and null != identify.id and '' != identify.id">
-				identify = #{identify.id},
+			<if test="null != code and code != ''">
+				code = #{code},
+			</if>
+			<if test="null != identity and null != identity.id and '' != identity.id">
+				identity = #{identity.id},
 			</if>
 			<if test="null != updateTime and updateTime != ''">
 				update_time = #{updateTime},
@@ -190,7 +205,7 @@
 		parameterType="Map">
 		<include refid="select"></include>
 		<![CDATA[
-		    WHERE id = #{id}
+		    WHERE t.id = #{id}
 		]]>
 	</select>
 

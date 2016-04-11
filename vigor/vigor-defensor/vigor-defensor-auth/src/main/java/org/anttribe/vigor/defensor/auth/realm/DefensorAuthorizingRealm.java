@@ -18,6 +18,7 @@ import org.anttribe.vigor.defensor.auth.UsernamePasswordToken;
 import org.anttribe.vigor.defensor.auth.constants.Keys;
 import org.anttribe.vigor.defensor.auth.credential.DefensorCredentialsMatcher;
 import org.anttribe.vigor.defensor.domain.Resource;
+import org.anttribe.vigor.defensor.domain.Role;
 import org.anttribe.vigor.defensor.domain.User;
 import org.anttribe.vigor.defensor.service.IResourceService;
 import org.anttribe.vigor.defensor.service.IRoleService;
@@ -81,17 +82,48 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
             this.clearCachedAuthorizationInfo(principals);
             SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
             // 加载权限
+            List<Role> roles = (List<Role>)session.getAttribute(Keys.KEY_USER_ROLES);
             List<Resource> resources = (List<Resource>)session.getAttribute(Keys.KEY_USER_RESOURCES);
-            if (null == resources)
+            if (CollectionUtils.isEmpty(roles) || CollectionUtils.isEmpty(resources))
             {
-                resources = resourceService.listUserResources(user, user.getIdentify());
+                this.loadUserResources(user, user.getIdentity(), session);
             }
+            
+            // 用户角色
+            roles = (List<Role>)session.getAttribute(Keys.KEY_USER_ROLES);
+            List<String> userRoles = this.processUserRoles(roles);
+            authorizationInfo.addRoles(userRoles);
+            // 用户资源权限
+            resources = (List<Resource>)session.getAttribute(Keys.KEY_USER_RESOURCES);
             List<String> permissions = this.processUserPermision(resources);
             authorizationInfo.addStringPermissions(permissions);
             
             return authorizationInfo;
         }
         return null;
+    }
+    
+    /**
+     * 处理用户角色
+     * 
+     * @param roles
+     * @return List<String>
+     */
+    private List<String> processUserRoles(List<Role> roles)
+    {
+        List<String> roleCodes = new ArrayList<String>();
+        if (!CollectionUtils.isEmpty(roles))
+        {
+            for (Role role : roles)
+            {
+                if (StringUtils.isEmpty(role.getCode()))
+                {
+                    continue;
+                }
+                roleCodes.add(role.getCode());
+            }
+        }
+        return roleCodes;
     }
     
     /**
@@ -122,6 +154,7 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
         return permissions;
     }
     
+    @SuppressWarnings("unchecked")
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
         throws AuthenticationException
@@ -147,17 +180,29 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
                 logger.warn("Failed to login with the password not match.");
                 throw new AuthenticationException("Failed to login with the password not match.");
             }
+            // 设置用户当前身份
+            user.setIdentity(usernamePasswordToken.getIdentity());
+            
+            // 获取当前会话
+            Session session = SecurityUtils.getSubject().getSession();
+            // 加载用户角色、资源权限
+            this.loadUserResources(user, usernamePasswordToken.getIdentity(), session);
+            List<Role> roles = (List<Role>)session.getAttribute(Keys.KEY_USER_ROLES);
+            if (CollectionUtils.isEmpty(roles))
+            {
+                // 该身份下没有角色, 登录失败
+                logger.warn("Failed to login with identity, there is no role with this identity: {}.",
+                    usernamePasswordToken.getIdentity());
+                throw new AuthenticationException("Failed to login with identity, there is no role with this identity: "
+                    + usernamePasswordToken.getIdentity() + ".");
+            }
             
             // 将用户信息放置session中
-            Session session = SecurityUtils.getSubject().getSession();
             session.setAttribute(Keys.KEY_USER_SESSION, user);
-            
-            // 加载用户资源
-            List<Resource> resources = resourceService.listUserResources(user, usernamePasswordToken.getIdentify());
-            session.setAttribute(Keys.KEY_USER_RESOURCES, resources);
+            // 构造当前用户菜单
+            List<Resource> resources = (List<Resource>)session.getAttribute(Keys.KEY_USER_RESOURCES);
             if (!CollectionUtils.isEmpty(resources))
             {
-                // 构造菜单
                 List<Resource> menuResources = this.processMenuResource(resources);
                 session.setAttribute(Keys.KEY_MENUS, menuResources);
             }
@@ -168,6 +213,26 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
             return authentication;
         }
         return null;
+    }
+    
+    /**
+     * 加载用户角色、资源权限
+     * 
+     * @param user
+     * @param identity
+     * @param session
+     */
+    private void loadUserResources(User user, String identity, Session session)
+    {
+        // 加载用户角色
+        List<Role> userRoles = roleService.listUserRoles(user, identity);
+        session.setAttribute(Keys.KEY_USER_ROLES, userRoles);
+        if (!CollectionUtils.isEmpty(userRoles))
+        {
+            // 加载对应的资源权限
+            List<Resource> resources = resourceService.listResources(userRoles);
+            session.setAttribute(Keys.KEY_USER_RESOURCES, resources);
+        }
     }
     
     /**
@@ -185,7 +250,7 @@ public class DefensorAuthorizingRealm extends AuthorizingRealm
             for (Resource resource : resources)
             {
                 ResourceType resourceType = resource.getResourceType();
-                if (resourceType == ResourceType.MENU || resourceType == ResourceType.PAGE)
+                if (resourceType.isMenuResource(resource))
                 {
                     resource.setChildren(this.processMenuResource(resource.getChildren()));
                     menuResources.add(resource);
